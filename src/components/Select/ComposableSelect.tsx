@@ -16,7 +16,7 @@ export type ComposableSelectItemType = "keyword" | "region";
  *    type: keyword
  *    value: "밥고 식당"
  *  }
- * ]
+ * ]    
  * 
  */
 export type ComposableSelectItem = {
@@ -25,9 +25,12 @@ export type ComposableSelectItem = {
     value: object;
 }
 
-
 export interface ComposableSelect {
-    placeHolder: string;
-    onChange: (selectedItems: ComposableSelectItem[]) => void;
+    placeHolder?: string;
+    onChange?: (selectedItems: ComposableSelectItem[]) => void;
+
+    /**
+     * Select ReactNode를 생성합니다
+     */
     render(): ReactNode;
 }

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { ComposableSelect } from "./Select/ComposableSelect";
 
 
+
 type ComposableSearchProps = {
     selectors: ComposableSelect[];
 }
@@ -14,7 +15,7 @@ export function ComposableSearch({ selectors }: ComposableSearchProps) {
     /**
      * select component 를 생성합니다
      * 
-     * @param conditions 
+     * @param selectors 
      */
     const renderSelect = (selectors: ComposableSelect[]): ReactNode => {
         return (<div>
