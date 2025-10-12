@@ -8,6 +8,7 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     box-sizing: border-box;
     border: 1px solid #eee;
+    background-color: #fff;
 }
 
 /* 좌측 아이콘 영역 */
@@ -21,24 +22,18 @@
     /* 좌우 패딩 */
     height: 40px;
     /* 부모 높이와 맞추기 위한 예시 높이 */
-    background-color: #f7f7f7;
+    /* background-color: #f7f7f7; */
     /* 아이콘 영역 배경색 */
     color: #555;
     /* 아이콘 색상 */
-    border-right: 1px solid #ccc;
-    /* 오른쪽 구분선 */
 }
 
 /* 현재 선택된 값을 보여주는 버튼(트리거) */
 .composable-select-trigger {
     /* 너비를 컨테이너에 맞춤 */
     width: 100%;
-    padding: 12px 15px;
     font-size: 16px;
     color: #333;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
     cursor: pointer;
 
     /* 내부 요소(텍스트, 화살표) 정렬 */
