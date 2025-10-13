@@ -1,15 +1,15 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import type { ComposableSelect, ComposableSelectItem } from "../ComposableSelect";
 import '../ComposableSelect.css';
 
 /**
  * 지역 선택 Select 입니다
  */
-export class RegionSelect implements ComposableSelect {
+export function RegionSelect() {
 
-    placeHolder?: string;
+    const placeHolder = useState<string>;
+    const isOpen = useState<boolean>;
 
-    isOpen: boolean;
 
     constructor(options: { placeHolder?: string }) {
         this.placeHolder = options?.placeHolder;
