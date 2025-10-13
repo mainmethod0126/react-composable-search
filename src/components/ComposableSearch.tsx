@@ -1,31 +1,20 @@
+import type React from "react";
+import type { ComposableSelectProps } from "./Select/ComposableSelect";
 import type { ReactNode } from "react";
-import type { ComposableSelect } from "./Select/ComposableSelect";
 
-
-
-type ComposableSearchProps = {
-    selectors: ComposableSelect[];
+export interface ComposableSearchProps {
+    selectorsProps: ComposableSelectProps
 }
 
 
-export function ComposableSearch({ selectors }: ComposableSearchProps) {
 
+export function ComposableSearch({ selectorsProps }: ComposableSearchProps) {
 
-
-    /**
-     * select component 를 생성합니다
-     * 
-     * @param selectors 
-     */
-    const renderSelect = (selectors: ComposableSelect[]): ReactNode => {
+    const renderSelect = (): ReactNode => {
         return (<div>
-            {selectors.map(
-                c => c.render()
-            )}
-        </div>);
+
+        </div>)
     }
-
-
 
 
     return (<div>
