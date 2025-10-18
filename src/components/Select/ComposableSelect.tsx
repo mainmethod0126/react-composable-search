@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 
 
 export type ComposableSelectItemType = "keyword" | "region";
@@ -26,24 +26,62 @@ export type ComposableSelectItem = {
 }
 
 export interface ComposableSelectProps {
-    placeHolder?: string;
-    onChange?: (selectedItems: ComposableSelectItem[]) => void;
+    readonly placeHolder?: string;
+    readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
+    readonly toggleConditionAreaOnOff?: () => void;
 }
 
 
 /**
  * 지역 선택 Select 입니다
+ *  
+ * 
+ * 
  */
 export function ComposableSelect(props: ComposableSelectProps) {
 
 
-    const placeHolder = useState<string>;
-    const isOpen = useState<boolean>;
+    /**
+     * onChangeRef.current 의 값이 바뀐다고 하더라도 재렌더링이 되지 않기 위해서 useRef사용
+     */
+    const onChangeRef = useRef(props.onChange);
+    useEffect(() => { onChangeRef.current = props.onChange; }, [props.onChange]);
+
+    /**
+     * ComposableSearch로 부터 toggleConditionAreaOnOff 함수를 주입받습니다
+     */
+    const toggleConditionAreaOnOff = useRef(props.toggleConditionAreaOnOff);
+    useEffect(() => { toggleConditionAreaOnOff.current = props.toggleConditionAreaOnOff; }, [props.toggleConditionAreaOnOff]);
+
+    /**
+     * select 컴포넌트가 마우스 클릭되었을 때 발생하는 이벤트 함수입니다
+     */
+    const onClick = () => {
+        toggleConditionAreaOnOff.current?.();
+    }
+
+    /**
+     * 선택된 items 가 없을때 노출될 텍스트입니다
+     */
+    // const [placeHolder, setPlaceHolder] = useState<string>(props.placeHolder ?? "");
+    // const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    /**
+     * 현재 선택되어있는 items 입니다
+     */
+    const [selectedItems] = useState<ComposableSelectItem[]>([]);
 
 
+
+
+    /**
+     * selectedItems 의 값이 변경되었을 때 onChange() 를 호출합니다
+     */
     useEffect(
         () => {
-        }, [])
+            onChangeRef.current?.(selectedItems);
+        }, [selectedItems]
+    )
 
 
     const LocationMarkerIcon = () => (
@@ -63,22 +101,19 @@ export function ComposableSelect(props: ComposableSelectProps) {
         </svg>
     );
 
-    const onChange = (selectedItems: ComposableSelectItem[]) => {
-        console.log(selectedItems)
-    };
 
 
     return (
         <div className="composable-select-container">
-            <div className="composable-select-head-icon">
+            <div className="composable-select-head-icon" >
                 <LocationMarkerIcon />
             </div>
-            <div className="composable-select-trigger">
+            <button className="composable-select-trigger" onClick={onClick}>
                 region select
                 <div>
                     화살표
                 </div>
-            </div>
+            </button>
         </div>
     )
 
