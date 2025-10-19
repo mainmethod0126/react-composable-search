@@ -25,6 +25,18 @@ export type ComposableSelectItem = {
     value: object;
 }
 
+export type RegionSelect = {
+    rootRegions: {
+        displayName: string;
+        name: string;
+        code: string;
+        children: {
+
+        }
+    }
+
+}
+
 export interface ComposableSelectProps {
     readonly placeHolder?: string;
     readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
@@ -109,7 +121,7 @@ export function ComposableSelect(props: ComposableSelectProps) {
                 <LocationMarkerIcon />
             </div>
             <button className="composable-select-trigger" onClick={onClick}>
-                region select
+                {props.placeHolder}
                 <div>
                     화살표
                 </div>

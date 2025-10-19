@@ -1,7 +1,23 @@
 import './App.css'
 import { ComposableSearch } from './components/ComposableSearch'
+import type { ComposableSelectProps } from './components/Select/ComposableSelect'
 
 function App() {
+
+  const createSelectorsProps = (): ComposableSelectProps[] => {
+
+    const regionSelect = () => {
+
+    }
+
+
+    return [
+      {
+        placeHolder: "테스트",
+
+      }
+    ]
+  }
 
   return (
     <>
@@ -9,7 +25,9 @@ function App() {
         <h1>react-composable-search</h1>
       </div>
       <div>
-        <ComposableSearch>
+        <ComposableSearch
+          selectorsProps={createSelectorsProps()}
+        >
         </ComposableSearch>
       </div >
     </>

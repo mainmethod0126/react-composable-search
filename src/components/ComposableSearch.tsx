@@ -3,9 +3,10 @@ import { ComposableSelect, type ComposableSelectProps } from "./Select/Composabl
 import './ComposableSearch.css'
 
 export interface ComposableSearchProps {
-    readonly selectorsProps?: ComposableSelectProps
+    readonly selectorsProps?: ComposableSelectProps[];
     readonly className?: string;
     readonly style?: CSSProperties;
+    readonly placeHolder?: string;
 }
 
 
@@ -34,11 +35,18 @@ export function ComposableSearch({
      * selector 들을 렌더링합니다
      */
     const renderSelectorsArea = () => {
-
         return (
-            <ComposableSelect
-                toggleDetailedConditionAreaOnOffRef={toggleDetailedConditionAreaOnOffRef.current}
-            ></ComposableSelect>
+            <>
+                {
+                    selectorsProps?.map((props) => {
+                        return <ComposableSelect
+                            {...props}
+                            toggleDetailedConditionAreaOnOffRef={toggleDetailedConditionAreaOnOffRef.current}
+                        ></ComposableSelect>
+                    })
+                }
+
+            </>
         )
 
 
