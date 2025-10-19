@@ -9,9 +9,7 @@ function App() {
         <h1>react-composable-search</h1>
       </div>
       <div>
-        <ComposableSearch
-          selectors={createSelectors()}
-        >
+        <ComposableSearch>
         </ComposableSearch>
       </div >
     </>
