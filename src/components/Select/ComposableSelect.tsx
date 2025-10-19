@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
+import './ComposableSelect.css'
 
 export type ComposableSelectItemType = "keyword" | "region";
 
@@ -28,7 +28,7 @@ export type ComposableSelectItem = {
 export interface ComposableSelectProps {
     readonly placeHolder?: string;
     readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
-    readonly toggleConditionAreaOnOff?: () => void;
+    readonly toggleDetailedConditionAreaOnOffRef?: () => void;
 }
 
 
@@ -48,16 +48,16 @@ export function ComposableSelect(props: ComposableSelectProps) {
     useEffect(() => { onChangeRef.current = props.onChange; }, [props.onChange]);
 
     /**
-     * ComposableSearch로 부터 toggleConditionAreaOnOff 함수를 주입받습니다
+     * ComposableSearch로 부터 toggleDetailedConditionAreaOnOffRef 함수를 주입받습니다
      */
-    const toggleConditionAreaOnOff = useRef(props.toggleConditionAreaOnOff);
-    useEffect(() => { toggleConditionAreaOnOff.current = props.toggleConditionAreaOnOff; }, [props.toggleConditionAreaOnOff]);
+    const toggleDetailedConditionAreaOnOffRef = useRef(props.toggleDetailedConditionAreaOnOffRef);
+    useEffect(() => { toggleDetailedConditionAreaOnOffRef.current = props.toggleDetailedConditionAreaOnOffRef; }, [props.toggleDetailedConditionAreaOnOffRef]);
 
     /**
      * select 컴포넌트가 마우스 클릭되었을 때 발생하는 이벤트 함수입니다
      */
     const onClick = () => {
-        toggleConditionAreaOnOff.current?.();
+        toggleDetailedConditionAreaOnOffRef.current?.();
     }
 
     /**

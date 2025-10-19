@@ -1,5 +1,5 @@
-import { type CSSProperties } from "react";
-import type { ComposableSelectProps } from "./Select/ComposableSelect";
+import { useRef, useState, type CSSProperties } from "react";
+import { ComposableSelect, type ComposableSelectProps } from "./Select/ComposableSelect";
 import './ComposableSearch.css'
 
 export interface ComposableSearchProps {
@@ -11,7 +11,7 @@ export interface ComposableSearchProps {
 
 
 export function ComposableSearch({
-    // selectorsProps,
+    selectorsProps,
     className,
     style
 }: ComposableSearchProps) {
@@ -19,16 +19,30 @@ export function ComposableSearch({
     /**
      * ConditionArea 가 열려있는 상태인지 확인합니다
      */
-    // const [isOpenConditionArea, setIsOpenConditionArea] = useState<boolean>(false);
+    const [isOpenDetailedConditionArea, setIsOpenDetailedConditionArea] = useState<boolean>(false);
 
     /**
      * ConditionArea 를 열거나 닫습니다
      */
-    // const toggleConditionAreaOnOffRef = useRef(() => {
-    //     setIsOpenConditionArea((prev) => {
-    //         return !prev
-    //     })
-    // });
+    const toggleDetailedConditionAreaOnOffRef = useRef(() => {
+        setIsOpenDetailedConditionArea((prev) => {
+            return !prev
+        })
+    });
+
+    /**
+     * selector 들을 렌더링합니다
+     */
+    const renderSelectorsArea = () => {
+
+        return (
+            <ComposableSelect
+                toggleDetailedConditionAreaOnOffRef={toggleDetailedConditionAreaOnOffRef.current}
+            ></ComposableSelect>
+        )
+
+
+    }
 
 
     return (
@@ -36,13 +50,17 @@ export function ComposableSearch({
             className={`composable-search-container ${className ?? ''}`}
             style={style}
         >
-            <div className="composable-search-selectors-area flex-center-content">
-                <p>selectors area</p>
+            <div className="composable-search-selectors-area">
+                {
+                    renderSelectorsArea()
+                }
             </div>
-            <div className="composable-search-detailed-conditions-area flex-center-content">
-                <p>Detailed Conditions area</p>
-            </div>
-            <div className="composable-search-selected-conditions-area flex-center-content">
+            {isOpenDetailedConditionArea ?
+                <div className="composable-search-detailed-conditions-area">
+                    <p>Detailed Conditions area</p>
+                </div> : null
+            }
+            <div className="composable-search-selected-conditions-area">
                 <p>Selected Conditions area</p>
             </div>
         </div>

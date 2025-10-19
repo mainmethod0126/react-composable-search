@@ -2,6 +2,7 @@
 .composable-select-container {
     /* 기준점이 되도록 relative 설정 */
     display: flex;
+    direction: ltr;
     position: relative;
     width: 250px;
     /* 원하는 너비로 조절 */
