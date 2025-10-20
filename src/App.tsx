@@ -1,12 +1,12 @@
 import './App.css'
 import { ComposableSearch } from './components/ComposableSearch'
-import type { ComposableSelectProps } from './components/Select/ComposableSelect'
+import type { ComposableSelectProps, RegionSelect } from './components/Select/ComposableSelect'
 
 function App() {
 
   const createSelectorsProps = (): ComposableSelectProps[] => {
 
-    const regionSelect = () => {
+    const regionSelect = (): RegionSelect => {
 
     }
 

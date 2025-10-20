@@ -25,30 +25,42 @@ export type ComposableSelectItem = {
     value: object;
 }
 
+export type Eupmyeondong = {
+    displayName: string;
+    name: string;
+    code: string;
+}
+
+export type Sigungu = {
+    displayName: string;
+    name: string;
+    code: string;
+    eupmyeondongs: Eupmyeondong[];
+}
+
+export type Sido = {
+    displayName: string;
+    name: string;
+    code: string;
+    sigungus: Sigungu[];
+}
+
 export type RegionSelect = {
-    rootRegions: {
-        displayName: string;
-        name: string;
-        code: string;
-        children: {
-
-        }
-    }
-
+    sidos: Sido[]
 }
 
 export interface ComposableSelectProps {
     readonly placeHolder?: string;
     readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
     readonly toggleDetailedConditionAreaOnOffRef?: () => void;
+    readonly onSelectedSido: (selected: Sido) => Sigungu;
+    readonly onSelectedSigungu: (selected: Sigungu) => Eupmyeondong;
+    readonly onSelectedEupmyeondong?: (selected: Eupmyeondong) => void;
 }
 
 
 /**
  * 지역 선택 Select 입니다
- *  
- * 
- * 
  */
 export function ComposableSelect(props: ComposableSelectProps) {
 
