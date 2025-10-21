@@ -45,17 +45,27 @@ export type Sido = {
     sigungus: Sigungu[];
 }
 
-export type RegionSelect = {
-    sidos: Sido[]
+
+
+export interface RegionSelectProps {
+    readonly type: 'region';
+    readonly findAllSidos: () => Sido[];
+    readonly findAllSigungus: (selected: Sido) => Sigungu[];
+    readonly findAllEupmyeondongs: (selected: Sigungu) => Eupmyeondong[];
+    readonly onSelectedEupmyeondong?: (selected: Eupmyeondong) => void;
+}
+
+
+export interface KeywordSelectProps {
+    readonly type: 'keyword';
+    readonly displayeName: string // 사실 의미없는거 그냥 하나 넣어둔거
 }
 
 export interface ComposableSelectProps {
     readonly placeHolder?: string;
     readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
     readonly toggleDetailedConditionAreaOnOffRef?: () => void;
-    readonly onSelectedSido: (selected: Sido) => Sigungu;
-    readonly onSelectedSigungu: (selected: Sigungu) => Eupmyeondong;
-    readonly onSelectedEupmyeondong?: (selected: Eupmyeondong) => void;
+    readonly detailProps: RegionSelectProps | KeywordSelectProps
 }
 
 
