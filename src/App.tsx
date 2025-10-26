@@ -1,20 +1,18 @@
 import './App.css'
 import { ComposableSearch } from './components/ComposableSearch'
-import type { ComposableSelectProps, RegionSelect } from './components/Select/ComposableSelect'
+import type { ComposableSelectProps } from './components/Select/ComposableSelect'
 
 function App() {
 
   const createSelectorsProps = (): ComposableSelectProps[] => {
 
-    const regionSelect = (): RegionSelect => {
-
-    }
-
-
     return [
       {
         placeHolder: "테스트",
-
+        detailProps: {
+          type: "region",
+          findAllEupmyeondongs
+        }
       }
     ]
   }
