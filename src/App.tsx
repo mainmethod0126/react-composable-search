@@ -8,10 +8,29 @@ function App() {
 
     return [
       {
-        placeHolder: "테스트",
+        options: {
+          placeHolder: "지역 선택"
+        },
         detailProps: {
-          type: "region",
-          findAllEupmyeondongs
+          type: 'region',
+          findAllEupmyeondongs: () => {
+            return []
+          },
+          findAllSidos: () => {
+            return []
+          },
+          findAllSigungus: () => {
+            return []
+          },
+        }
+      },
+      {
+        options: {
+          placeHolder: "키워드 검색"
+        },
+        detailProps: {
+          type: 'keyword',
+          displayeName: "해삐"
         }
       }
     ]

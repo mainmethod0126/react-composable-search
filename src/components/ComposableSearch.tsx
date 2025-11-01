@@ -41,7 +41,6 @@ export function ComposableSearch({
                     selectorsProps?.map((props) => {
                         return <ComposableSelect
                             {...props}
-                            toggleDetailedConditionAreaOnOffRef={toggleDetailedConditionAreaOnOffRef.current}
                         ></ComposableSelect>
                     })
                 }
