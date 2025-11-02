@@ -43,7 +43,7 @@ export function RegionSelect(props: RegionSelectProps) {
     /**
      * onChangeRef.current 의 값이 바뀐다고 하더라도 재렌더링이 되지 않기 위해서 useRef사용
      */
-    const onChangeRef = useRef(props);
+    const onChangeRef = useRef(props.options?.onChange);
     useEffect(() => {
         if (props.options?.onChange) {
             onChangeRef.current = props.options.onChange;
