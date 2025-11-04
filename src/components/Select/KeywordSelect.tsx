@@ -10,10 +10,6 @@ export interface KeywordSelectProps {
 export function KeywordSelect(props: KeywordSelectProps) {
 
 
-
-
-
-
     const KeywordIcon = () => (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -26,11 +22,11 @@ export function KeywordSelect(props: KeywordSelectProps) {
             strokeLinecap="round"
             strokeLinejoin="round"
         >
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-            <circle cx="12" cy="9" r="3" />
+            {/* 돋보기 아이콘 경로: 원(검색 렌즈)과 선(손잡이) */}
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
     );
-
 
 
     return (

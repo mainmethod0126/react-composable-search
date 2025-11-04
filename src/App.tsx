@@ -1,32 +1,44 @@
 import './App.css'
 import { ComposableSearch } from './components/ComposableSearch'
 import type { ComposableSelectProps } from './components/Select/ComposableSelect'
+import type { KeywordSelectProps } from './components/Select/KeywordSelect'
+import type { RegionSelectProps } from './components/Select/RegionSelect'
 
 function App() {
 
+
+  const createRegionSelectProps = (): RegionSelectProps => {
+    return {
+      options: {
+        placeHolder: "지역 선택"
+      },
+      type: 'region',
+      findAllSidos: () => {
+        return []
+      },
+      findAllSigungus: () => {
+        return []
+      },
+      findAllEupmyeondongs: () => {
+        return []
+      }
+    }
+  }
+
+  const createKeywordSelectProps = (): KeywordSelectProps => {
+    return {
+      options: {
+        placeHolder: "키워드 검색"
+      },
+      type: 'keyword',
+    }
+  }
+
+
   const createSelectorsProps = (): ComposableSelectProps[] => {
     return [
-      {
-        options: {
-          placeHolder: "지역 선택"
-        },
-        type: 'region',
-        findAllEupmyeondongs: () => {
-          return []
-        },
-        findAllSidos: () => {
-          return []
-        },
-        findAllSigungus: () => {
-          return []
-        },
-      },
-      {
-        options: {
-          placeHolder: "키워드 검색"
-        },
-        type: 'keyword',
-      }
+      createRegionSelectProps(),
+      createKeywordSelectProps()
     ]
   }
 

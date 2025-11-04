@@ -21,23 +21,24 @@ export type Sido = {
     sigungus: Sigungu[];
 }
 
-export interface RegionSelectProps {
+export type RegionSelectProps = Omit<DefaultProps, 'toggleDetailedConditionAreaOnOffRef'>;
+
+export type DefaultProps = {
     readonly type: 'region';
     readonly findAllSidos: () => Sido[];
     readonly findAllSigungus: (selected: Sido) => Sigungu[];
     readonly findAllEupmyeondongs: (selected: Sigungu) => Eupmyeondong[];
+    readonly toggleDetailedConditionAreaOnOffRef: () => void;
 
     readonly options?: {
         readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
-        readonly toggleDetailedConditionAreaOnOffRef?: () => void;
         readonly onSelectedEupmyeondong?: (selected: Eupmyeondong) => void;
         readonly onClick?: () => void;
         readonly placeHolder?: string
     }
 }
 
-
-export function RegionSelect(props: RegionSelectProps) {
+export function RegionSelect(props: Readonly<RegionSelectProps>) {
 
 
     /**
@@ -84,7 +85,6 @@ export function RegionSelect(props: RegionSelectProps) {
             onChangeRef.current?.(selectedItems);
         }, [selectedItems]
     )
-
 
 
 
