@@ -21,9 +21,12 @@ export type Sido = {
     sigungus: Sigungu[];
 }
 
-export type RegionSelectProps = Omit<DefaultProps, 'toggleDetailedConditionAreaOnOffRef'>;
 
-export type DefaultProps = {
+// 실제 라이브러리 사용자가 외부에서 props를 주입할때 사용할 수 있는 용도입니다
+// Omit된 속성은 라이브러리 내부에서 호출할때 주입용이라 사용자에게 표출하지 않도록 하였습니다
+export type RegionSelectProps = Omit<RegionDefaultProps, 'toggleDetailedConditionAreaOnOffRef'>;
+
+export type RegionDefaultProps = {
     readonly type: 'region';
     readonly findAllSidos: () => Sido[];
     readonly findAllSigungus: (selected: Sido) => Sigungu[];
@@ -38,7 +41,7 @@ export type DefaultProps = {
     }
 }
 
-export function RegionSelect(props: Readonly<RegionSelectProps>) {
+export function RegionSelect(props: RegionDefaultProps) {
 
 
     /**
@@ -56,8 +59,8 @@ export function RegionSelect(props: Readonly<RegionSelectProps>) {
     /**
      * ComposableSearch로 부터 toggleDetailedConditionAreaOnOffRef 함수를 주입받습니다
      */
-    const toggleDetailedConditionAreaOnOffRef = useRef(props.options?.toggleDetailedConditionAreaOnOffRef);
-    useEffect(() => { toggleDetailedConditionAreaOnOffRef.current = props.options?.toggleDetailedConditionAreaOnOffRef; }, [props.options?.toggleDetailedConditionAreaOnOffRef]);
+    const toggleDetailedConditionAreaOnOffRef = useRef(props.toggleDetailedConditionAreaOnOffRef);
+    useEffect(() => { toggleDetailedConditionAreaOnOffRef.current = props.toggleDetailedConditionAreaOnOffRef; }, [props.toggleDetailedConditionAreaOnOffRef]);
 
     /**
      * select 컴포넌트가 마우스 클릭되었을 때 발생하는 이벤트 함수입니다
@@ -111,7 +114,7 @@ export function RegionSelect(props: Readonly<RegionSelectProps>) {
             <div className="composable-select-head-icon" >
                 <LocationMarkerIcon />
             </div>
-            <button className="composable-select-trigger" onClick={props.options?.onClick}>
+            <button className="composable-select-trigger" onClick={onClick}>
                 <div>
                     {props.options?.placeHolder}
                 </div>

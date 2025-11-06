@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import './ComposableSelect.css'
-import { RegionSelect, type RegionSelectProps } from "./RegionSelect";
+import { RegionSelect, type RegionDefaultProps } from "./RegionSelect";
 import { KeywordSelect, type KeywordSelectProps } from "./KeywordSelect";
 
 export type ComposableSelectItemType = "keyword" | "region";
@@ -31,13 +31,13 @@ export type ComposableSelectItem = {
 
 
 
-export type ComposableSelectProps = RegionSelectProps | KeywordSelectProps
+export type ComposableSelectDefaultProps = RegionDefaultProps | KeywordSelectProps
 
 
 /**
  * 지역 선택 Select 입니다
  */
-export function ComposableSelect(props: ComposableSelectProps) {
+export function ComposableSelect(props: ComposableSelectDefaultProps) {
 
 
     const render = (): ReactNode => {

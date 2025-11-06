@@ -1,6 +1,8 @@
 import { useRef, useState, type CSSProperties } from "react";
-import { ComposableSelect, type ComposableSelectProps } from "./Select/ComposableSelect";
+import { ComposableSelect } from "./Select/ComposableSelect";
 import './ComposableSearch.css'
+import type { RegionSelectProps } from "./Select/RegionSelect";
+import type { KeywordSelectProps } from "./Select/KeywordSelect";
 
 export interface ComposableSearchProps {
     readonly selectorsProps?: ComposableSelectProps[];
@@ -10,6 +12,7 @@ export interface ComposableSearchProps {
 }
 
 
+export type ComposableSelectProps = RegionSelectProps | KeywordSelectProps
 
 export function ComposableSearch({
     selectorsProps,
@@ -39,6 +42,12 @@ export function ComposableSearch({
             <>
                 {
                     selectorsProps?.map((props) => {
+                        if (props.type === 'region') {
+                            return <ComposableSelect
+                                {...props}
+                                toggleDetailedConditionAreaOnOffRef={toggleDetailedConditionAreaOnOffRef.current}
+                            ></ComposableSelect>
+                        }
                         return <ComposableSelect
                             {...props}
                         ></ComposableSelect>

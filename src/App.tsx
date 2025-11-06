@@ -1,6 +1,5 @@
 import './App.css'
-import { ComposableSearch } from './components/ComposableSearch'
-import type { ComposableSelectProps } from './components/Select/ComposableSelect'
+import { ComposableSearch, type ComposableSelectProps } from './components/ComposableSearch'
 import type { KeywordSelectProps } from './components/Select/KeywordSelect'
 import type { RegionSelectProps } from './components/Select/RegionSelect'
 
