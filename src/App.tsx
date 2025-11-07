@@ -2,6 +2,7 @@ import './App.css'
 import { ComposableSearch, type ComposableSelectProps } from './components/ComposableSearch'
 import type { KeywordSelectProps } from './components/Select/KeywordSelect'
 import type { RegionSelectProps } from './components/Select/RegionSelect/RegionSelect'
+import { getEupmyeondongs, getSidos, getSigungus } from './DemoService'
 
 function App() {
 
@@ -13,13 +14,13 @@ function App() {
       },
       type: 'region',
       findAllSidos: () => {
-        return []
+        return getSidos()
       },
-      findAllSigungus: () => {
-        return []
+      findAllSigungus: (sidoCode: string) => {
+        return getSigungus(sidoCode);
       },
-      findAllEupmyeondongs: () => {
-        return []
+      findAllEupmyeondongs: (sigunguCode: string) => {
+        return getEupmyeondongs(sigunguCode);
       }
     }
   }

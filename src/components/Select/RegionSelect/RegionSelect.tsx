@@ -11,14 +11,14 @@ export type Sigungu = {
     displayName: string;
     name: string;
     code: string;
-    eupmyeondongs: Eupmyeondong[];
+    // eupmyeondongs: Eupmyeondong[];
 }
 
 export type Sido = {
     displayName: string;
     name: string;
     code: string;
-    sigungus: Sigungu[];
+    // sigungus: Sigungu[];
 }
 
 
@@ -29,8 +29,8 @@ export type RegionSelectProps = Omit<RegionDefaultProps, 'toggleDetailedConditio
 export type RegionDefaultProps = {
     readonly type: 'region';
     readonly findAllSidos: () => Sido[];
-    readonly findAllSigungus: (selected: Sido) => Sigungu[];
-    readonly findAllEupmyeondongs: (selected: Sigungu) => Eupmyeondong[];
+    readonly findAllSigungus: (sidoCode: string) => Sigungu[];
+    readonly findAllEupmyeondongs: (sidoCode: string) => Eupmyeondong[];
     readonly toggleDetailedConditionAreaOnOffRef: () => void;
 
     readonly options?: {
