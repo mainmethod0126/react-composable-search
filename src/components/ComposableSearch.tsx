@@ -1,7 +1,7 @@
 import { useRef, useState, type CSSProperties } from "react";
 import { ComposableSelect } from "./Select/ComposableSelect";
 import './ComposableSearch.css'
-import type { RegionSelectProps } from "./Select/RegionSelect";
+import type { RegionSelectProps } from "./Select/RegionSelect/RegionSelect";
 import type { KeywordSelectProps } from "./Select/KeywordSelect";
 
 export interface ComposableSearchProps {

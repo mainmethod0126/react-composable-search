@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { ComposableSelectItem } from "./ComposableSelect";
+import type { ComposableSelectItem } from "../ComposableSelect";
 
 export type Eupmyeondong = {
     displayName: string;
