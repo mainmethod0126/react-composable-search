@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { ComposableSelectItem } from "../ComposableSelect";
+import { RegionSelectConditionsArea } from "./RegionSelectConditionsArea";
 
 export type Eupmyeondong = {
     displayName: string;
@@ -24,14 +25,15 @@ export type Sido = {
 
 // 실제 라이브러리 사용자가 외부에서 props를 주입할때 사용할 수 있는 용도입니다
 // Omit된 속성은 라이브러리 내부에서 호출할때 주입용이라 사용자에게 표출하지 않도록 하였습니다
-export type RegionSelectProps = Omit<RegionDefaultProps, 'toggleDetailedConditionAreaOnOffRef'>;
+export type RegionSelectProps = Omit<RegionDefaultProps, 'toggleDetailedConditionAreaOnOffRef' | 'setDetailedConditionsContent'>;
 
 export type RegionDefaultProps = {
     readonly type: 'region';
     readonly findAllSidos: () => Sido[];
     readonly findAllSigungus: (sidoCode: string) => Sigungu[];
-    readonly findAllEupmyeondongs: (sidoCode: string) => Eupmyeondong[];
+    readonly findAllEupmyeondongs: (sigunguCode: string) => Eupmyeondong[];
     readonly toggleDetailedConditionAreaOnOffRef: () => void;
+    readonly setDetailedConditionsContent: (regionConditionsArea: ReactNode) => void;
 
     readonly options?: {
         readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
@@ -67,7 +69,29 @@ export function RegionSelect(props: RegionDefaultProps) {
      */
     const onClick = () => {
         toggleDetailedConditionAreaOnOffRef.current?.();
+
+
     }
+
+    /**
+     * Sido[] 정보를 초기 정보로하여 RegionSelectConditionsArea 를 렌더링합니다
+     * 
+     * @returns RegionSelectConditionsArea
+     */
+    const renderRegionSelectConditionsArea = (): ReactNode => {
+        const foundSidos = props.findAllSidos();
+
+        return <RegionSelectConditionsArea
+            foundSidos={foundSidos}>
+        </RegionSelectConditionsArea>
+    }
+
+    /**
+     * 초기 렌더링 시 호출
+     */
+    useEffect(() => {
+        props.setDetailedConditionsContent(renderRegionSelectConditionsArea());
+    })
 
     /**
      * 선택된 items 가 없을때 노출될 텍스트입니다

@@ -3,8 +3,8 @@ import type { Eupmyeondong, Sido, Sigungu } from "./RegionSelect";
 
 export type RegionSelectConditionsAreaProps = {
     foundSidos: Sido[];
-    foundSigungus: Sigungu[];
-    foundEupmyeondongs: Eupmyeondong[];
+    foundSigungus?: Sigungu[];
+    foundEupmyeondongs?: Eupmyeondong[];
 }
 
 type RegionItem = Sido | Sigungu | Eupmyeondong;
@@ -46,6 +46,7 @@ const optionStyle: CSSProperties = {
     gap: "8px",
     fontSize: "0.9rem",
     cursor: "pointer",
+    color: "#000000",
 };
 
 const emptyStyle: CSSProperties = {
@@ -78,9 +79,9 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
 
     return (
         <section style={containerStyle}>
-            {renderColumn("Sidos", foundSidos)}
-            {renderColumn("Sigungu", foundSigungus)}
-            {renderColumn("Eupmyeondong", foundEupmyeondongs)}
+            {renderColumn("Sidos", foundSidos ?? [])}
+            {renderColumn("Sigungu", foundSigungus ?? [])}
+            {renderColumn("Eupmyeondong", foundEupmyeondongs ?? [])}
         </section>
     );
 }

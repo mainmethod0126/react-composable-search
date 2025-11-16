@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { ComposableSelect } from "./Select/ComposableSelect";
 import './ComposableSearch.css'
 import type { RegionSelectProps } from "./Select/RegionSelect/RegionSelect";
@@ -46,6 +46,7 @@ export function ComposableSearch({
                             return <ComposableSelect
                                 {...props}
                                 toggleDetailedConditionAreaOnOffRef={toggleDetailedConditionAreaOnOffRef.current}
+                                setDetailedConditionsContent={setDetailedConditionsContent}
                             ></ComposableSelect>
                         }
                         return <ComposableSelect
@@ -56,10 +57,16 @@ export function ComposableSearch({
 
             </>
         )
-
-
     }
 
+    const [conditionsAreaNode, setConditionsAreaNode] = useState<ReactNode>(<p>Detailed Conditions area</p>);
+
+    /**
+     * Detailed Conditions area 의 내부를 채우는 용도
+     */
+    const setDetailedConditionsContent = (conditionAreaNode: ReactNode) => {
+        setConditionsAreaNode(conditionAreaNode);
+    }
 
     return (
         <div
@@ -73,7 +80,7 @@ export function ComposableSearch({
             </div>
             {isOpenDetailedConditionArea ?
                 <div className="composable-search-detailed-conditions-area">
-                    <p>Detailed Conditions area</p>
+                    {conditionsAreaNode}
                 </div> : null
             }
             <div className="composable-search-selected-conditions-area">
