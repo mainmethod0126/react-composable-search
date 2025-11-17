@@ -5,6 +5,10 @@ export type RegionSelectConditionsAreaProps = {
     foundSidos: Sido[];
     foundSigungus?: Sigungu[];
     foundEupmyeondongs?: Eupmyeondong[];
+
+    onChangeSelectSidos: () => void
+    onChangeSelectSigungus: () => void
+    onChangeSelectEupmyeondongs: () => void
 }
 
 type RegionItem = Sido | Sigungu | Eupmyeondong;
@@ -56,7 +60,7 @@ const emptyStyle: CSSProperties = {
 
 const getItemLabel = (item: RegionItem) => item.displayName ?? item.name;
 
-const renderColumn = (title: string, items: RegionItem[]) => (
+const renderColumn = (title: string, items: RegionItem[], onChange: React.ChangeEventHandler<HTMLInputElement>) => (
     <div style={columnStyle}>
         <div style={titleStyle}>{title}</div>
         <div style={listStyle}>
@@ -65,7 +69,9 @@ const renderColumn = (title: string, items: RegionItem[]) => (
             ) : (
                 items.map((item) => (
                     <label key={item.code} style={optionStyle}>
-                        <input type="checkbox" />
+                        <input type="checkbox"
+                            onChange={onChange}
+                        />
                         <span>{getItemLabel(item)}</span>
                     </label>
                 ))
@@ -77,9 +83,13 @@ const renderColumn = (title: string, items: RegionItem[]) => (
 export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProps) {
     const { foundSidos, foundSigungus, foundEupmyeondongs } = props;
 
+    const onChangeSelectSidos = (selectedSido: Sido) => {
+        findSigungus(selectedSido.code);
+    }
+
     return (
         <section style={containerStyle}>
-            {renderColumn("Sidos", foundSidos ?? [])}
+            {renderColumn("Sidos", foundSidos ?? [],)}
             {renderColumn("Sigungu", foundSigungus ?? [])}
             {renderColumn("Eupmyeondong", foundEupmyeondongs ?? [])}
         </section>
