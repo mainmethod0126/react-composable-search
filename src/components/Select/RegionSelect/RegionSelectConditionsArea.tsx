@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import type { Eupmyeondong, Sido, Sigungu } from "./RegionSelect";
 
 export type RegionSelectConditionsAreaProps = {
@@ -6,11 +6,12 @@ export type RegionSelectConditionsAreaProps = {
     foundSigungus?: Sigungu[];
     foundEupmyeondongs?: Eupmyeondong[];
 
-    onChangeSelectSidos: () => void
-    onChangeSelectSigungus: () => void
-    onChangeSelectEupmyeondongs: () => void
+    onSelectedSido: (selectedSido: Sido) => void
+    onSelectedSigungu: (selectedSigungu: Sigungu) => void
+    onSelectedEupmyeondong: (selectedEupmyeondong: Eupmyeondong) => void
 }
 
+type OnSelectedRegion = ((selectedSido: Sido) => void) | ((selectedSigungu: Sigungu) => void) | ((selectedEupmyeondong: Eupmyeondong) => void);
 type RegionItem = Sido | Sigungu | Eupmyeondong;
 
 const containerStyle: CSSProperties = {
@@ -60,7 +61,8 @@ const emptyStyle: CSSProperties = {
 
 const getItemLabel = (item: RegionItem) => item.displayName ?? item.name;
 
-const renderColumn = (title: string, items: RegionItem[], onChange: React.ChangeEventHandler<HTMLInputElement>) => (
+
+const renderColumn = (title: string, items: RegionItem[], onSelectedRegion: OnSelectedRegion) => (
     <div style={columnStyle}>
         <div style={titleStyle}>{title}</div>
         <div style={listStyle}>
@@ -70,7 +72,11 @@ const renderColumn = (title: string, items: RegionItem[], onChange: React.Change
                 items.map((item) => (
                     <label key={item.code} style={optionStyle}>
                         <input type="checkbox"
-                            onChange={onChange}
+                            onChange={(e) => {
+                                if (e.target.checked) {
+                                    onSelectedRegion(item);
+                                }
+                            }}
                         />
                         <span>{getItemLabel(item)}</span>
                     </label>
@@ -81,17 +87,28 @@ const renderColumn = (title: string, items: RegionItem[], onChange: React.Change
 );
 
 export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProps) {
+
+    const onSelectedSido = (selectedSido: Sido) => {
+        props.onSelectedSido(selectedSido);
+    }
+
+    const onSelectedSigungu = (selectedSigungu: Sigungu) => {
+        props.onSelectedSigungu(selectedSigungu);
+    }
+
+    const onSelectedEupmyeondong = (selectedEupmyeondong: Eupmyeondong) => {
+        props.onSelectedEupmyeondong(selectedEupmyeondong);
+    }
+
+
     const { foundSidos, foundSigungus, foundEupmyeondongs } = props;
 
-    const onChangeSelectSidos = (selectedSido: Sido) => {
-        findSigungus(selectedSido.code);
-    }
 
     return (
         <section style={containerStyle}>
-            {renderColumn("Sidos", foundSidos ?? [],)}
-            {renderColumn("Sigungu", foundSigungus ?? [])}
-            {renderColumn("Eupmyeondong", foundEupmyeondongs ?? [])}
+            {renderColumn("Sidos", foundSidos ?? [], onSelectedSido)}
+            {renderColumn("Sigungu", foundSigungus ?? [], onSelectedSigungu)}
+            {renderColumn("Eupmyeondong", foundEupmyeondongs ?? [], onSelectedEupmyeondong)}
         </section>
     );
 }

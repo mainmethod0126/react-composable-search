@@ -73,6 +73,13 @@ export function RegionSelect(props: RegionDefaultProps) {
 
     }
 
+    const onSelectedSido = () => {
+
+
+
+    }
+
+
     /**
      * Sido[] 정보를 초기 정보로하여 RegionSelectConditionsArea 를 렌더링합니다
      * 
@@ -82,6 +89,7 @@ export function RegionSelect(props: RegionDefaultProps) {
         const foundSidos = props.findAllSidos();
 
         return <RegionSelectConditionsArea
+
             foundSidos={foundSidos}>
         </RegionSelectConditionsArea>
     }
@@ -91,7 +99,7 @@ export function RegionSelect(props: RegionDefaultProps) {
      */
     useEffect(() => {
         props.setDetailedConditionsContent(renderRegionSelectConditionsArea());
-    })
+    }, [])
 
     /**
      * 선택된 items 가 없을때 노출될 텍스트입니다
