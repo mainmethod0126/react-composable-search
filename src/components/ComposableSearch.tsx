@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useCallback, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { ComposableSelect } from "./Select/ComposableSelect";
 import './ComposableSearch.css'
 import type { RegionSelectProps } from "./Select/RegionSelect/RegionSelect";
@@ -64,9 +64,9 @@ export function ComposableSearch({
     /**
      * Detailed Conditions area 의 내부를 채우는 용도
      */
-    const setDetailedConditionsContent = (conditionAreaNode: ReactNode) => {
-        setConditionsAreaNode(conditionAreaNode);
-    }
+    const setDetailedConditionsContent = useCallback((node: ReactNode) => {
+        setConditionsAreaNode(node);
+    }, []);
 
     return (
         <div

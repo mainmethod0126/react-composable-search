@@ -45,6 +45,10 @@ export type RegionDefaultProps = {
 
 export function RegionSelect(props: RegionDefaultProps) {
 
+    const [sidos, setSidos] = useState<Sido[]>([])
+    const [sigungus, setSigungus] = useState<Sigungu[]>([])
+    const [eupmyeondong, setEupmyeondong] = useState<Eupmyeondong[]>([])
+
 
     /**
      * onChangeRef.current 의 값이 바뀐다고 하더라도 재렌더링이 되지 않기 위해서 useRef사용
@@ -73,33 +77,36 @@ export function RegionSelect(props: RegionDefaultProps) {
 
     }
 
-    const onSelectedSido = () => {
-
-
+    const onSelectedSido = (selectedSido: Sido) => {
+        setSigungus(props.findAllSigungus(selectedSido.code));
 
     }
 
+    const onSelectedSigungu = (selectedSigungu: Sigungu) => {
+        setEupmyeondong(props.findAllEupmyeondongs(selectedSigungu.code))
 
-    /**
-     * Sido[] 정보를 초기 정보로하여 RegionSelectConditionsArea 를 렌더링합니다
-     * 
-     * @returns RegionSelectConditionsArea
-     */
-    const renderRegionSelectConditionsArea = (): ReactNode => {
-        const foundSidos = props.findAllSidos();
-
-        return <RegionSelectConditionsArea
-
-            foundSidos={foundSidos}>
-        </RegionSelectConditionsArea>
     }
 
-    /**
-     * 초기 렌더링 시 호출
-     */
+    const onSelectedEupmyeondong = (selectedEupmyeondong: Eupmyeondong) => {
+    }
+
     useEffect(() => {
-        props.setDetailedConditionsContent(renderRegionSelectConditionsArea());
-    }, [])
+        setSidos(props.findAllSidos());
+    }, [props.findAllSidos]);
+
+    // sidos/sigungus/eupmyeondong 변하면 부모에 다시 전달
+    useEffect(() => {
+        props.setDetailedConditionsContent(
+            <RegionSelectConditionsArea
+                onSelectedSido={onSelectedSido}
+                onSelectedSigungu={onSelectedSigungu}
+                onSelectedEupmyeondong={onSelectedEupmyeondong}
+                foundSidos={sidos}
+                foundSigungus={sigungus}
+                foundEupmyeondongs={eupmyeondong}
+            />
+        );
+    }, [sidos, sigungus, eupmyeondong, props.setDetailedConditionsContent])
 
     /**
      * 선택된 items 가 없을때 노출될 텍스트입니다
