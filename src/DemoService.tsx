@@ -2,13 +2,13 @@
 // React에 대한 의존성이 없는 순수 TypeScript 모듈입니다.
 
 // 이 타입들은 실제 RegionSelect 컴포넌트가 있는 경로에서 가져옵니다.
-import type { Eupmyeondong, Sido, Sigungu } from "./components/Select/RegionSelect/RegionSelect"
+import type { Region } from "./components/Select/RegionSelect/RegionSelect"
 
 /**
  * 대한민국 시도 목록을 반환합니다.
  * (샘플 데이터)
  */
-export const getSidos = (): Sido[] => {
+export const getSidos = (): Region[] => {
     return [
         {
             displayName: "서울특별시",
@@ -37,7 +37,7 @@ export const getSidos = (): Sido[] => {
  * 특정 시도(sidoCode)에 속한 시군구 목록을 반환합니다.
  * @param sidoCode 상위 시도의 10자리 법정동 코드
  */
-export const getSigungus = (sidoCode: string): Sigungu[] => {
+export const getSigungus = (sidoCode: string): Region[] => {
     switch (sidoCode) {
         // 서울특별시 (1100000000)
         case "1100000000":
@@ -83,7 +83,7 @@ export const getSigungus = (sidoCode: string): Sigungu[] => {
  * 특정 시군구(sigunguCode)에 속한 읍면동 목록을 반환합니다.
  * @param sigunguCode 상위 시군구의 10자리 법정동 코드
  */
-export const getEupmyeondongs = (sigunguCode: string): Eupmyeondong[] => {
+export const getEupmyeondongs = (sigunguCode: string): Region[] => {
     switch (sigunguCode) {
         // 서울특별시 강남구 (1168000000)
         case "1168000000":

@@ -1,18 +1,28 @@
 import { type CSSProperties } from "react";
-import type { Eupmyeondong, Sido, Sigungu } from "./RegionSelect";
+import type { Region } from "./RegionSelect";
 
 export type RegionSelectConditionsAreaProps = {
-    foundSidos: Sido[];
-    foundSigungus?: Sigungu[];
-    foundEupmyeondongs?: Eupmyeondong[];
+    foundSidoNode?: RegionNode;
+    foundSigunguNode?: RegionNode;
+    foundEupmyeondongNode?: RegionNode;
 
-    onSelectedSido: (selectedSido: Sido) => void
-    onSelectedSigungu: (selectedSigungu: Sigungu) => void
-    onSelectedEupmyeondong: (selectedEupmyeondong: Eupmyeondong) => void
+    onSelectedSido: (selectedSido: Region) => void
+    onSelectedSigungu: (selectedSigungu: Region) => void
+    onSelectedEupmyeondong: (selectedEupmyeondong: Region) => void
 }
 
-type OnSelectedRegion = ((selectedSido: Sido) => void) | ((selectedSigungu: Sigungu) => void) | ((selectedEupmyeondong: Eupmyeondong) => void);
-type RegionItem = Sido | Sigungu | Eupmyeondong;
+type OnSelectedRegion = ((selectedSido: Region) => void) | ((selectedSigungu: Region) => void) | ((selectedEupmyeondong: Region) => void);
+// type RegionItem = Sido | Sigungu | Eupmyeondong;
+
+/**
+ * 자기자신을 포함합니다
+ * 
+ */
+export type RegionNode = {
+    parent?: Region,
+    children: Region[]
+}
+
 
 const containerStyle: CSSProperties = {
     display: "grid",
@@ -59,56 +69,64 @@ const emptyStyle: CSSProperties = {
     color: "#a0aec0",
 };
 
-const getItemLabel = (item: RegionItem) => item.displayName ?? item.name;
+const getItemLabel = (item: Region) => item.displayName ?? item.name;
 
 
-const renderColumn = (title: string, items: RegionItem[], onSelectedRegion: OnSelectedRegion) => (
-    <div style={columnStyle}>
+const renderColumn = (title: string, onSelectedRegion: OnSelectedRegion, regionNode?: RegionNode) => {
+
+    // 체크 가능한 지역 목록에 부모 지역 전체 선택지도 포함시켜야함
+    const regions: Region[] = [
+        ...(regionNode?.parent ? [regionNode.parent] : []),
+        ...regionNode?.children ?? []
+    ];
+
+    return <div style={columnStyle} >
         <div style={titleStyle}>{title}</div>
         <div style={listStyle}>
-            {items.length === 0 ? (
+            {regions.length === 0 ? (
                 <span style={emptyStyle}>No items to display.</span>
             ) : (
-                items.map((item) => (
-                    <label key={item.code} style={optionStyle}>
+                regions.map((region) => (
+                    <label key={region.code} style={optionStyle}>
                         <input type="checkbox"
                             onChange={(e) => {
                                 if (e.target.checked) {
-                                    onSelectedRegion(item);
+                                    onSelectedRegion(region);
                                 }
                             }}
                         />
-                        <span>{getItemLabel(item)}</span>
+                        <span>{getItemLabel(region)}</span>
                     </label>
                 ))
             )}
         </div>
     </div>
-);
+}
+
 
 export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProps) {
 
-    const onSelectedSido = (selectedSido: Sido) => {
+    const onSelectedSido = (selectedSido: Region) => {
         props.onSelectedSido(selectedSido);
     }
 
-    const onSelectedSigungu = (selectedSigungu: Sigungu) => {
+    const onSelectedSigungu = (selectedSigungu: Region) => {
         props.onSelectedSigungu(selectedSigungu);
     }
 
-    const onSelectedEupmyeondong = (selectedEupmyeondong: Eupmyeondong) => {
+    const onSelectedEupmyeondong = (selectedEupmyeondong: Region) => {
         props.onSelectedEupmyeondong(selectedEupmyeondong);
     }
 
 
-    const { foundSidos, foundSigungus, foundEupmyeondongs } = props;
+    const { foundSidoNode, foundSigunguNode, foundEupmyeondongNode } = props;
 
 
     return (
         <section style={containerStyle}>
-            {renderColumn("Sidos", foundSidos ?? [], onSelectedSido)}
-            {renderColumn("Sigungu", foundSigungus ?? [], onSelectedSigungu)}
-            {renderColumn("Eupmyeondong", foundEupmyeondongs ?? [], onSelectedEupmyeondong)}
+            {renderColumn("시/도", onSelectedSido, foundSidoNode)}
+            {renderColumn("시/군/구", onSelectedSigungu, foundSigunguNode)}
+            {renderColumn("읍/면/동", onSelectedEupmyeondong, foundEupmyeondongNode)}
         </section>
     );
 }

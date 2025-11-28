@@ -1,25 +1,11 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { ComposableSelectItem } from "../ComposableSelect";
-import { RegionSelectConditionsArea } from "./RegionSelectConditionsArea";
+import { RegionSelectConditionsArea, type RegionNode } from "./RegionSelectConditionsArea";
 
-export type Eupmyeondong = {
+export type Region = {
     displayName: string;
     name: string;
     code: string;
-}
-
-export type Sigungu = {
-    displayName: string;
-    name: string;
-    code: string;
-    // eupmyeondongs: Eupmyeondong[];
-}
-
-export type Sido = {
-    displayName: string;
-    name: string;
-    code: string;
-    // sigungus: Sigungu[];
 }
 
 
@@ -29,15 +15,15 @@ export type RegionSelectProps = Omit<RegionDefaultProps, 'toggleDetailedConditio
 
 export type RegionDefaultProps = {
     readonly type: 'region';
-    readonly findAllSidos: () => Sido[];
-    readonly findAllSigungus: (sidoCode: string) => Sigungu[];
-    readonly findAllEupmyeondongs: (sigunguCode: string) => Eupmyeondong[];
+    readonly findAllSidos: () => Region[];
+    readonly findAllSigungus: (sidoCode: string) => Region[];
+    readonly findAllEupmyeondongs: (sigunguCode: string) => Region[];
     readonly toggleDetailedConditionAreaOnOffRef: () => void;
     readonly setDetailedConditionsContent: (regionConditionsArea: ReactNode) => void;
 
     readonly options?: {
         readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
-        readonly onSelectedEupmyeondong?: (selected: Eupmyeondong) => void;
+        readonly onSelectedEupmyeondong?: (selected: Region) => void;
         readonly onClick?: () => void;
         readonly placeHolder?: string
     }
@@ -45,9 +31,9 @@ export type RegionDefaultProps = {
 
 export function RegionSelect(props: RegionDefaultProps) {
 
-    const [sidos, setSidos] = useState<Sido[]>([])
-    const [sigungus, setSigungus] = useState<Sigungu[]>([])
-    const [eupmyeondong, setEupmyeondong] = useState<Eupmyeondong[]>([])
+    const [sidoNode, setSidoNode] = useState<RegionNode>()
+    const [sigunguNode, setSigunguNode] = useState<RegionNode>()
+    const [eupmyeondongNode, setEupmyeondongNode] = useState<RegionNode>()
 
 
     /**
@@ -77,22 +63,47 @@ export function RegionSelect(props: RegionDefaultProps) {
 
     }
 
-    const onSelectedSido = (selectedSido: Sido) => {
-        setSigungus(props.findAllSigungus(selectedSido.code));
+    const onSelectedSido = (selectedSido: Region) => {
+
+        const foundSigungus = props.findAllSigungus(selectedSido.code);
+
+        setSigunguNode(convertToRegionNode(selectedSido, foundSigungus));
+    }
+
+    const onSelectedSigungu = (selectedSigungu: Region) => {
+
+        const foundEupmyeondongs = props.findAllEupmyeondongs(selectedSigungu.code);
+
+
+        setEupmyeondongNode(convertToRegionNode(selectedSigungu, foundEupmyeondongs))
 
     }
 
-    const onSelectedSigungu = (selectedSigungu: Sigungu) => {
-        setEupmyeondong(props.findAllEupmyeondongs(selectedSigungu.code))
-
+    const onSelectedEupmyeondong = (selectedEupmyeondong: Region) => {
     }
 
-    const onSelectedEupmyeondong = (selectedEupmyeondong: Eupmyeondong) => {
+
+    const convertToRegionNode = (parent: Region, children: Region[]): RegionNode => {
+        return {
+            parent: {
+                ...parent,
+                displayName: parent.displayName + " 전체"
+            },
+            children: children
+        }
     }
+
 
     useEffect(() => {
-        setSidos(props.findAllSidos());
+
+        const foundSidos = props.findAllSidos();
+
+        setSidoNode({
+            children: foundSidos
+        });
+
     }, [props.findAllSidos]);
+
 
     // sidos/sigungus/eupmyeondong 변하면 부모에 다시 전달
     useEffect(() => {
@@ -101,12 +112,12 @@ export function RegionSelect(props: RegionDefaultProps) {
                 onSelectedSido={onSelectedSido}
                 onSelectedSigungu={onSelectedSigungu}
                 onSelectedEupmyeondong={onSelectedEupmyeondong}
-                foundSidos={sidos}
-                foundSigungus={sigungus}
-                foundEupmyeondongs={eupmyeondong}
+                foundSidoNode={sidoNode}
+                foundSigunguNode={sigunguNode}
+                foundEupmyeondongNode={eupmyeondongNode}
             />
         );
-    }, [sidos, sigungus, eupmyeondong, props.setDetailedConditionsContent])
+    }, [sidoNode, sigunguNode, eupmyeondongNode, props.setDetailedConditionsContent])
 
     /**
      * 선택된 items 가 없을때 노출될 텍스트입니다
