@@ -20,9 +20,17 @@ export type OnSelectedRegion = ((selectedSido: Region) => void) | ((selectedSigu
  * 자기자신을 포함합니다
  * 
  */
-export type RegionNode = {
+export type RegionColumnNode = {
     parent?: Region,
-    children: Region[]
+    children: RegionColumnItem[]
+}
+
+export type RegionColumnItem = {
+    displayName: string;
+    name: string;
+    code: string;
+    isSelected?: boolean;
+    isCurrent?: boolean;
 }
 
 
@@ -48,21 +56,21 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
                 title="시/도"
                 onSelectedRegion={onSelectedSido}
                 options={{
-                    regionNode: foundSidoNode
+                    regionColumnNode: foundSidoNode
                 }}
             ></SelectableRegionColumn>
             <SelectableRegionColumn
                 title="시/군/구"
                 onSelectedRegion={onSelectedSigungu}
                 options={{
-                    regionNode: foundSigunguNode
+                    regionColumnNode: foundSigunguNode
                 }}
             ></SelectableRegionColumn>
             <CheckableRegionColumn
                 title="읍/면/동"
                 onSelectedRegion={onSelectedEupmyeondong}
                 options={{
-                    regionNode: foundEupmyeondongNode
+                    regionColumnNode: foundEupmyeondongNode
                 }}
             ></CheckableRegionColumn>
         </div>

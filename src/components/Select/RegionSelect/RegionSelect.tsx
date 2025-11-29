@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { ComposableSelectItem } from "../ComposableSelect";
-import { RegionSelectConditionsArea, type RegionNode } from "./RegionSelectConditionsArea";
+import { RegionSelectConditionsArea, type RegionColumnNode } from "./RegionSelectConditionsArea";
 
 
 export type Region = {
@@ -32,9 +32,9 @@ export type RegionDefaultProps = {
 
 export function RegionSelect(props: RegionDefaultProps) {
 
-    const [sidoNode, setSidoNode] = useState<RegionNode>()
-    const [sigunguNode, setSigunguNode] = useState<RegionNode>()
-    const [eupmyeondongNode, setEupmyeondongNode] = useState<RegionNode>()
+    const [sidoColumnNode, setSidoColumnNode] = useState<RegionColumnNode>()
+    const [sigunguColumnNode, setSigunguColumnNode] = useState<RegionColumnNode>()
+    const [eupmyeondongColumnNode, setEupmyeondongColumnNode] = useState<RegionColumnNode>()
 
 
     /**
@@ -68,7 +68,7 @@ export function RegionSelect(props: RegionDefaultProps) {
 
         const foundSigungus = props.findAllSigungus(selectedSido.code);
 
-        setSigunguNode(convertToRegionNode(selectedSido, foundSigungus));
+        setSigunguColumnNode(convertToRegionColumnNode(selectedSido, foundSigungus));
     }
 
     const onSelectedSigungu = (selectedSigungu: Region) => {
@@ -76,7 +76,7 @@ export function RegionSelect(props: RegionDefaultProps) {
         const foundEupmyeondongs = props.findAllEupmyeondongs(selectedSigungu.code);
 
 
-        setEupmyeondongNode(convertToRegionNode(selectedSigungu, foundEupmyeondongs))
+        setEupmyeondongColumnNode(convertToRegionColumnNode(selectedSigungu, foundEupmyeondongs))
 
     }
 
@@ -84,7 +84,7 @@ export function RegionSelect(props: RegionDefaultProps) {
     }
 
 
-    const convertToRegionNode = (parent: Region, children: Region[]): RegionNode => {
+    const convertToRegionColumnNode = (parent: Region, children: Region[]): RegionColumnNode => {
         return {
             parent: {
                 ...parent,
@@ -99,7 +99,7 @@ export function RegionSelect(props: RegionDefaultProps) {
 
         const foundSidos = props.findAllSidos();
 
-        setSidoNode({
+        setSidoColumnNode({
             children: foundSidos
         });
 
@@ -113,12 +113,12 @@ export function RegionSelect(props: RegionDefaultProps) {
                 onSelectedSido={onSelectedSido}
                 onSelectedSigungu={onSelectedSigungu}
                 onSelectedEupmyeondong={onSelectedEupmyeondong}
-                foundSidoNode={sidoNode}
-                foundSigunguNode={sigunguNode}
-                foundEupmyeondongNode={eupmyeondongNode}
+                foundSidoNode={sidoColumnNode}
+                foundSigunguNode={sigunguColumnNode}
+                foundEupmyeondongNode={eupmyeondongColumnNode}
             />
         );
-    }, [sidoNode, sigunguNode, eupmyeondongNode, props.setDetailedConditionsContent])
+    }, [sidoColumnNode, sigunguColumnNode, eupmyeondongColumnNode, props.setDetailedConditionsContent])
 
     /**
      * 선택된 items 가 없을때 노출될 텍스트입니다

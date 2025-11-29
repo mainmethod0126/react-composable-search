@@ -1,31 +1,30 @@
 import { useState } from "react"
-import type { Region } from "./RegionSelect"
 import './RegionColumn.css'
-import type { OnSelectedRegion, RegionNode } from "./RegionSelectConditionsArea"
+import type { OnSelectedRegion, RegionColumnItem, RegionColumnNode } from "./RegionSelectConditionsArea"
 
 export type CheckableRegionColumnProps = {
 
     readonly title: string,
     readonly onSelectedRegion: OnSelectedRegion,
     readonly options?: {
-        regionNode?: RegionNode
+        regionColumnNode?: RegionColumnNode
     }
 }
 
 export function CheckableRegionColumn(props: CheckableRegionColumnProps) {
 
     // const [selectedRegions, setSelectedRegions] = useState<Region[]>
-    const [currentRegion, setCurrentRegion] = useState<Region>()
+    const [currentRegion, setCurrentRegion] = useState<RegionColumnItem>()
 
-    const getItemLabel = (item: Region) => item.displayName ?? item.name;
+    const getItemLabel = (item: RegionColumnItem) => item.displayName ?? item.name;
 
     // 체크 가능한 지역 목록에 부모 지역 전체 선택지도 포함시켜야함
-    const regions: Region[] = [
-        ...(props.options?.regionNode?.parent ? [props.options?.regionNode.parent] : []),
-        ...props.options?.regionNode?.children ?? []
+    const regions: RegionColumnItem[] = [
+        ...(props.options?.regionColumnNode?.parent ? [props.options?.regionColumnNode.parent] : []),
+        ...props.options?.regionColumnNode?.children ?? []
     ];
 
-    const isSelected = (region: Region) => {
+    const isSelected = (region: RegionColumnItem) => {
         return currentRegion && currentRegion.code === region.code;
     }
 

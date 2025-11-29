@@ -1,6 +1,5 @@
 import { useState } from "react";
-import type { OnSelectedRegion, RegionNode } from "./RegionSelectConditionsArea";
-import type { Region } from "./RegionSelect";
+import type { OnSelectedRegion, RegionColumnItem, RegionColumnNode } from "./RegionSelectConditionsArea";
 import './RegionColumn.css'
 
 
@@ -11,7 +10,7 @@ export type SelectableRegionColumnProps = {
     readonly title: string,
     readonly onSelectedRegion: OnSelectedRegion,
     readonly options?: {
-        regionNode?: RegionNode
+        regionColumnNode?: RegionColumnNode
     }
 }
 
@@ -19,17 +18,17 @@ export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
 
 
     // const [selectedRegions, setSelectedRegions] = useState<Region[]>
-    const [currentRegion, setCurrentRegion] = useState<Region>()
+    const [currentRegion, setCurrentRegion] = useState<RegionColumnItem>()
 
-    const getItemLabel = (item: Region) => item.displayName ?? item.name;
+    const getItemLabel = (item: RegionColumnItem) => item.displayName ?? item.name;
 
     // 체크 가능한 지역 목록에 부모 지역 전체 선택지도 포함시켜야함
-    const regions: Region[] = [
-        ...(props.options?.regionNode?.parent ? [props.options?.regionNode.parent] : []),
-        ...props.options?.regionNode?.children ?? []
+    const regions: RegionColumnItem[] = [
+        ...(props.options?.regionColumnNode?.parent ? [props.options?.regionColumnNode.parent] : []),
+        ...props.options?.regionColumnNode?.children ?? []
     ];
 
-    const isSelected = (region: Region) => {
+    const isCurrent = (region: RegionColumnItem) => {
         return currentRegion && currentRegion.code === region.code;
     }
 
@@ -40,7 +39,7 @@ export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
                 <span className="region-column-emptyStyle">No items to display.</span>
             ) : (
                 regions.map((region) => (
-                    <label key={region.code} className={`region-column-optionStyle ${isSelected(region) ? 'selected' : ''}`} onClick={() => {
+                    <label key={region.code} className={`region-column-optionStyle ${isCurrent(region) ? 'current' : ''}`} onClick={() => {
                         setCurrentRegion(region)
                         props.onSelectedRegion(region);
                     }}>
