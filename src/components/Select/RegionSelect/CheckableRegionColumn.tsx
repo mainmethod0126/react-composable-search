@@ -1,4 +1,3 @@
-import { useState } from "react"
 import './RegionColumn.css'
 import type { OnSelectedRegion, RegionColumnItem, RegionColumnNode } from "./RegionSelectConditionsArea"
 
@@ -13,8 +12,6 @@ export type CheckableRegionColumnProps = {
 
 export function CheckableRegionColumn(props: CheckableRegionColumnProps) {
 
-    // const [selectedRegions, setSelectedRegions] = useState<Region[]>
-    const [currentRegion, setCurrentRegion] = useState<RegionColumnItem>()
 
     const getItemLabel = (item: RegionColumnItem) => item.displayName ?? item.name;
 
@@ -24,9 +21,6 @@ export function CheckableRegionColumn(props: CheckableRegionColumnProps) {
         ...props.options?.regionColumnNode?.children ?? []
     ];
 
-    const isSelected = (region: RegionColumnItem) => {
-        return currentRegion && currentRegion.code === region.code;
-    }
 
     return (<div className="region-column-columnStyle" >
         <div className="region-column-titleStyle">{props.title}</div>
@@ -35,7 +29,7 @@ export function CheckableRegionColumn(props: CheckableRegionColumnProps) {
                 <span className="region-column-emptyStyle">No items to display.</span>
             ) : (
                 regions.map((region) => (
-                    <label key={region.code} className={`region-column-optionStyle ${isSelected(region) ? 'selected' : ''}`} >
+                    <label key={region.code} className={`region-column-optionStyle`} >
                         <input type="checkbox"
                             onChange={(e) => {
                                 if (e.target.checked) {

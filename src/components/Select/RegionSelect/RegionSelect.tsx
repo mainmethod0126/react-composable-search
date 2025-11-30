@@ -37,6 +37,9 @@ export function RegionSelect(props: RegionDefaultProps) {
     const [eupmyeondongColumnNode, setEupmyeondongColumnNode] = useState<RegionColumnNode>()
 
 
+
+    const [selectedRegions, setSelectedRegions] = useState<Region>()
+
     /**
      * onChangeRef.current 의 값이 바뀐다고 하더라도 재렌더링이 되지 않기 위해서 useRef사용
      */
@@ -80,7 +83,12 @@ export function RegionSelect(props: RegionDefaultProps) {
 
     }
 
-    const onSelectedEupmyeondong = (selectedEupmyeondong: Region) => {
+    const onSelectedEupmyeondong = (selectedRegion: Region) => {
+
+
+
+
+
     }
 
 

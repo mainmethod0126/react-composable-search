@@ -2,6 +2,7 @@ import type { Region } from "./RegionSelect";
 import { CheckableRegionColumn } from "./CheckableRegionColumn";
 import { SelectableRegionColumn } from "./SelectableRegionColumn";
 import "./RegionColumn.css"
+import { useCallback, useMemo } from "react";
 
 export type RegionSelectConditionsAreaProps = {
     foundSidoNode?: RegionNode;
@@ -21,7 +22,7 @@ export type OnSelectedRegion = ((selectedSido: Region) => void) | ((selectedSigu
  * 
  */
 export type RegionColumnNode = {
-    parent?: Region,
+    parent?: RegionColumnItem,
     children: RegionColumnItem[]
 }
 
@@ -36,9 +37,14 @@ export type RegionColumnItem = {
 
 export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProps) {
 
-    const onSelectedSido = (selectedSido: Region) => {
+    const [selectedSido, setSelectedSido]: Region | undefined = undefined
+    const [selectedSigungu, setSelectedSigungu]: Region | undefined = undefined
+    const [selectedEupmyeondong, : Region | undefined = undefined
+
+
+    const onSelectedSido = useCallback((selectedSido: Region) => {
         props.onSelectedSido(selectedSido);
-    }
+    }, [props])
 
     const onSelectedSigungu = (selectedSigungu: Region) => {
         props.onSelectedSigungu(selectedSigungu);

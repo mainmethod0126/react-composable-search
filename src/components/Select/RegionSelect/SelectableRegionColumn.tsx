@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { OnSelectedRegion, RegionColumnItem, RegionColumnNode } from "./RegionSelectConditionsArea";
 import './RegionColumn.css'
 
@@ -17,8 +17,9 @@ export type SelectableRegionColumnProps = {
 export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
 
 
-    // const [selectedRegions, setSelectedRegions] = useState<Region[]>
-    const [currentRegion, setCurrentRegion] = useState<RegionColumnItem>()
+    const [currentRegion, setCurrentRegion] = useState<RegionColumnItem | undefined>()
+
+    console.log("current : " + props.options?.regionColumnNode?.parent?.displayName)
 
     const getItemLabel = (item: RegionColumnItem) => item.displayName ?? item.name;
 
@@ -29,8 +30,18 @@ export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
     ];
 
     const isCurrent = (region: RegionColumnItem) => {
-        return currentRegion && currentRegion.code === region.code;
+        return currentRegion && currentRegion?.code === region.code;
     }
+
+    /**
+     * Column 은 초기 아이템은 parent로 지정됩니다
+     */
+    useEffect(() => {
+        if (props.options?.regionColumnNode?.parent) {
+            setCurrentRegion(props.options.regionColumnNode.parent);
+            props.onSelectedRegion(props.options.regionColumnNode.parent);
+        }
+    }, [props.options?.regionColumnNode]); // 의존성 배열에 parent 객체(혹은 ID)를 넣습니다.
 
     return (<div className="region-column-columnStyle" >
         <div className="region-column-titleStyle">{props.title}</div>
