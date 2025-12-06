@@ -2,12 +2,12 @@ import type { Region } from "./RegionSelect";
 import { CheckableRegionColumn } from "./CheckableRegionColumn";
 import { SelectableRegionColumn } from "./SelectableRegionColumn";
 import "./RegionColumn.css"
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 export type RegionSelectConditionsAreaProps = {
-    foundSidoNode?: RegionNode;
-    foundSigunguNode?: RegionNode;
-    foundEupmyeondongNode?: RegionNode;
+    foundSidoNode?: RegionColumnNode;
+    foundSigunguNode?: RegionColumnNode;
+    foundEupmyeondongNode?: RegionColumnNode;
 
     onSelectedSido: (selectedSido: Region) => void
     onSelectedSigungu: (selectedSigungu: Region) => void
@@ -35,24 +35,87 @@ export type RegionColumnItem = {
 }
 
 
+export type SelectedRegionGroup = {
+    sido: Region;
+    sigungu?: Region;
+    eupmyeondong?: Region
+}
+
+
 export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProps) {
 
-    const [selectedSido, setSelectedSido]: Region | undefined = undefined
-    const [selectedSigungu, setSelectedSigungu]: Region | undefined = undefined
-    const [selectedEupmyeondong, : Region | undefined = undefined
+
+    const [currentSido, setCurrentSido] = useState<Region>()
+    const [currentSigungu, setCurrentSigungu] = useState<Region>()
+    const [currentEupmyeondong, setCurrentEupmyeondong] = useState<Region>()
+
+    const [selectedRegionGroups, setSelectedRegionGroups] = useState<SelectedRegionGroup[]>([])
+
 
 
     const onSelectedSido = useCallback((selectedSido: Region) => {
+        setCurrentSido(selectedSido)
         props.onSelectedSido(selectedSido);
     }, [props])
 
-    const onSelectedSigungu = (selectedSigungu: Region) => {
+    const onSelectedSigungu = useCallback((selectedSigungu: Region) => {
+        setCurrentSigungu(selectedSigungu)
         props.onSelectedSigungu(selectedSigungu);
+    }, [props])
+
+    const onSelectedEupmyeondong = useCallback((selectedEupmyeondong: Region) => {
+        setCurrentEupmyeondong(selectedEupmyeondong)
+
+        if (currentSido) {
+            selectedRegionGroups.push({
+                sido: currentSido,
+                sigungu: currentSigungu,
+                eupmyeondong: currentEupmyeondong
+            })
+        }
+
+        props.onSelectedEupmyeondong(selectedEupmyeondong);
+    }, [props, currentSido, currentSigungu, currentEupmyeondong, selectedRegionGroups])
+
+
+    const getSelectedSidos = (): Region[] => {
+
+        const selectedSidos: Region[] = []
+
+        for (const selectedRegionGroup of selectedRegionGroups) {
+            selectedSidos.push(selectedRegionGroup.sido);
+        }
+
+        return selectedSidos;
     }
 
-    const onSelectedEupmyeondong = (selectedEupmyeondong: Region) => {
-        props.onSelectedEupmyeondong(selectedEupmyeondong);
+    const getSelectedSigungus = (): Region[] => {
+
+        const selectedSigungus: Region[] = []
+
+        for (const selectedRegionGroup of selectedRegionGroups) {
+            if (selectedRegionGroup.sigungu) {
+                selectedSigungus.push(selectedRegionGroup.sigungu);
+            }
+        }
+
+        return selectedSigungus;
     }
+
+    const getSelectedEupmyeondongs = (): Region[] => {
+
+        const selectedEupmyeondongs: Region[] = []
+
+        for (const selectedRegionGroup of selectedRegionGroups) {
+            if (selectedRegionGroup.eupmyeondong) {
+                selectedEupmyeondongs.push(selectedRegionGroup.eupmyeondong);
+            }
+        }
+
+        return selectedEupmyeondongs;
+    }
+
+
 
     const { foundSidoNode, foundSigunguNode, foundEupmyeondongNode } = props;
 
@@ -61,6 +124,7 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
             <SelectableRegionColumn
                 title="시/도"
                 onSelectedRegion={onSelectedSido}
+                selectedRegions={getSelectedSidos()}
                 options={{
                     regionColumnNode: foundSidoNode
                 }}
@@ -68,6 +132,7 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
             <SelectableRegionColumn
                 title="시/군/구"
                 onSelectedRegion={onSelectedSigungu}
+                selectedRegions={getSelectedSigungus()}
                 options={{
                     regionColumnNode: foundSigunguNode
                 }}
@@ -75,6 +140,7 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
             <CheckableRegionColumn
                 title="읍/면/동"
                 onSelectedRegion={onSelectedEupmyeondong}
+                selectedRegions={getSelectedEupmyeondongs()}
                 options={{
                     regionColumnNode: foundEupmyeondongNode
                 }}

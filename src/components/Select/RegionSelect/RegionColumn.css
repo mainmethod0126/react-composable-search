@@ -65,7 +65,7 @@
 
 /* 선택되었을 때 적용될 스타일 (.selected가 붙었을 때) */
 .region-column-optionStyle.selected {
-    background-color: #007bff;
+    background-color: #aed2f7;
     /* 파란색 배경 */
     color: white;
     /* 흰색 글자 */
@@ -77,7 +77,7 @@
 
 /* 현재 선택된 아이템일때 적용될 스타일 (.current 붙었을 때) */
 .region-column-optionStyle.current {
-    background-color: #68b0fd;
+    background-color: #007bff;
     /* 파란색 배경 */
     color: white;
     /* 흰색 글자 */
