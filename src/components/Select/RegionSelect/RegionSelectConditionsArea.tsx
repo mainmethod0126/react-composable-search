@@ -2,7 +2,7 @@ import type { Region } from "./RegionSelect";
 import { CheckableRegionColumn } from "./CheckableRegionColumn";
 import { SelectableRegionColumn } from "./SelectableRegionColumn";
 import "./RegionColumn.css"
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
 export type RegionSelectConditionsAreaProps = {
     foundSidoNode?: RegionColumnNode;
@@ -47,7 +47,6 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
 
     const [currentSido, setCurrentSido] = useState<Region>()
     const [currentSigungu, setCurrentSigungu] = useState<Region>()
-    const [currentEupmyeondong, setCurrentEupmyeondong] = useState<Region>()
 
     const [selectedRegionGroups, setSelectedRegionGroups] = useState<SelectedRegionGroup[]>([])
 
@@ -64,19 +63,36 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
     }, [props])
 
     const onSelectedEupmyeondong = useCallback((selectedEupmyeondong: Region) => {
-        setCurrentEupmyeondong(selectedEupmyeondong)
+        if (!currentSido) return;
 
-        if (currentSido) {
-            selectedRegionGroups.push({
-                sido: currentSido,
-                sigungu: currentSigungu,
-                eupmyeondong: currentEupmyeondong
-            })
-        }
+        setSelectedRegionGroups((prev) => {
+            const targetIndex = prev.findIndex(
+                (group) => group.eupmyeondong?.code === selectedEupmyeondong.code
+            );
+
+            if (targetIndex > -1) {
+                // 이미 존재함 -> 해당 인덱스만 쏙 빼고 복사 (Splice)
+                const next = [...prev];
+                next.splice(targetIndex, 1);
+                return next;
+            } else {
+                // 존재하지 않음 -> 배열 끝에 추가
+                return [
+                    ...prev,
+                    {
+                        sido: currentSido,
+                        sigungu: currentSigungu,
+                        eupmyeondong: selectedEupmyeondong,
+                    },
+                ];
+            }
+        });
 
         props.onSelectedEupmyeondong(selectedEupmyeondong);
-    }, [props, currentSido, currentSigungu, currentEupmyeondong, selectedRegionGroups])
 
+        // [최적화] setState 함수형 업데이트(prev => ...)를 사용했으므로 
+        // selectedRegionGroups를 의존성 배열에서 뺄 수 있습니다.
+    }, [props, currentSido, currentSigungu]);
 
     const getSelectedSidos = (): Region[] => {
 
@@ -139,8 +155,8 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
             ></SelectableRegionColumn>
             <CheckableRegionColumn
                 title="읍/면/동"
-                onSelectedRegion={onSelectedEupmyeondong}
-                selectedRegions={getSelectedEupmyeondongs()}
+                onCheckedRegion={onSelectedEupmyeondong}
+                checkedRegions={getSelectedEupmyeondongs()}
                 options={{
                     regionColumnNode: foundEupmyeondongNode
                 }}
