@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { ComposableSelect } from "./Select/ComposableSelect";
 import './ComposableSearch.css'
-import type { RegionSelectProps } from "./Select/RegionSelect/RegionSelect";
+import type { Region, RegionSelectProps } from "./Select/RegionSelect/RegionSelect";
 import type { KeywordSelectProps } from "./Select/KeywordSelect";
 
 export interface ComposableSearchProps {
@@ -12,6 +12,22 @@ export interface ComposableSearchProps {
 }
 
 
+export type SeletedRegionCondition = {
+    sido: Region,
+    Sigungu: Region,
+    Eupmyeondong: Region,
+}
+
+export type SeletedKeywordCondition = {}
+
+export type SelectedCondition = {
+    displayName: string
+    detail: {
+
+    }
+}
+
+
 export type ComposableSelectProps = RegionSelectProps | KeywordSelectProps
 
 export function ComposableSearch({
@@ -19,6 +35,8 @@ export function ComposableSearch({
     className,
     style
 }: ComposableSearchProps) {
+
+    const [selectedConditions, setSelectedConditions] =
 
     /**
      * ConditionArea 가 열려있는 상태인지 확인합니다
