@@ -12,20 +12,18 @@ export interface ComposableSearchProps {
 }
 
 
-export type SeletedRegionCondition = {
+export type SelectedCondition = {
+    displayName: string
+}
+
+export type SeletedRegionCondition = SelectedCondition & {
     sido: Region,
     Sigungu: Region,
     Eupmyeondong: Region,
 }
 
-export type SeletedKeywordCondition = {}
+export type SeletedKeywordCondition = SelectedCondition & {}
 
-export type SelectedCondition = {
-    displayName: string
-    detail: {
-
-    }
-}
 
 
 export type ComposableSelectProps = RegionSelectProps | KeywordSelectProps
@@ -36,7 +34,16 @@ export function ComposableSearch({
     style
 }: ComposableSearchProps) {
 
-    const [selectedConditions, setSelectedConditions] =
+    const [selectedConditions, setSelectedConditions] = useState<(SeletedRegionCondition | SeletedKeywordCondition)[]>([]);
+
+    const onSelectedCondition = useCallback((selectedCondition: SeletedRegionCondition | SeletedKeywordCondition) => {
+        setSelectedConditions((prev) => {
+            return [
+                ...prev,
+                selectedCondition
+            ]
+        })
+    }, [])
 
     /**
      * ConditionArea 가 열려있는 상태인지 확인합니다
