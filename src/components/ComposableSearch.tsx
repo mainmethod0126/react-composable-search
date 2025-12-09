@@ -2,7 +2,7 @@ import { useCallback, useRef, useState, type CSSProperties, type ReactNode } fro
 import { ComposableSelect } from "./Select/ComposableSelect";
 import './ComposableSearch.css'
 import type { Region, RegionSelectProps } from "./Select/RegionSelect/RegionSelect";
-import type { KeywordSelectProps } from "./Select/KeywordSelect";
+import type { KeywordSelectProps } from "./Select/KeywordSelect/KeywordSelect";
 
 export interface ComposableSearchProps {
     readonly selectorsProps?: ComposableSelectProps[];
@@ -109,7 +109,7 @@ export function ComposableSearch({
                 </div> : null
             }
             <div className="composable-search-selected-conditions-area">
-                <p>Selected Conditions area</p>
+                <p>Selected Conditions Basket</p>
             </div>
         </div>
     );

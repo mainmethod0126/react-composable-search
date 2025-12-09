@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import './ComposableSelect.css'
 import { RegionSelect, type RegionDefaultProps } from "./RegionSelect/RegionSelect";
-import { KeywordSelect, type KeywordSelectProps } from "./KeywordSelect";
+import { KeywordSelect, type KeywordSelectProps } from "./KeywordSelect/KeywordSelect";
 
 export type ComposableSelectItemType = "keyword" | "region";
 

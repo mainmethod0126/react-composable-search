@@ -1,6 +1,6 @@
 import './App.css'
 import { ComposableSearch, type ComposableSelectProps } from './components/ComposableSearch'
-import type { KeywordSelectProps } from './components/Select/KeywordSelect'
+import type { KeywordSelectProps } from './components/Select/KeywordSelect/KeywordSelect'
 import type { RegionSelectProps } from './components/Select/RegionSelect/RegionSelect'
 import { getEupmyeondongs, getSidos, getSigungus } from './DemoService'
 
