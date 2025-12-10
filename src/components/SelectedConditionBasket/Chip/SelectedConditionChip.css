@@ -1,0 +1,53 @@
+/* BEM 네이밍 컨벤션 적용
+  Block: .selected-condition-chip
+  Element: __label, __delete-button
+*/
+
+.selected-condition-chip {
+    display: inline-flex;
+    align-items: center;
+    background-color: #e0e0e0;
+    border-radius: 16px;
+    padding: 4px 12px;
+    margin: 4px;
+    font-size: 14px;
+    color: #333;
+    user-select: none;
+    /* 텍스트 선택 방지 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: background-color 0.2s ease;
+}
+
+/* 칩 내부 텍스트 라벨 */
+.selected-condition-chip__label {
+    margin-right: 8px;
+    font-weight: 500;
+}
+
+/* 삭제 버튼 */
+.selected-condition-chip__delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* 삭제 버튼 Hover 효과 */
+.selected-condition-chip__delete-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+
+/* 아이콘 SVG 스타일 (크기 조정) */
+.selected-condition-chip__icon {
+    width: 14px;
+    height: 14px;
+}

@@ -3,6 +3,7 @@ import { ComposableSelect } from "./Select/ComposableSelect";
 import './ComposableSearch.css'
 import type { Region, RegionSelectProps } from "./Select/RegionSelect/RegionSelect";
 import type { KeywordSelectProps } from "./Select/KeywordSelect/KeywordSelect";
+import { SelectedConditionBasket } from "./SelectedConditionBasket/SelectedConditionBasket";
 
 export interface ComposableSearchProps {
     readonly selectorsProps?: ComposableSelectProps[];
@@ -109,7 +110,9 @@ export function ComposableSearch({
                 </div> : null
             }
             <div className="composable-search-selected-conditions-area">
-                <p>Selected Conditions Basket</p>
+                <SelectedConditionBasket
+                    conditions={selectedConditions}
+                ></SelectedConditionBasket>
             </div>
         </div>
     );
