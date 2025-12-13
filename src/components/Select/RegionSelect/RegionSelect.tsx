@@ -24,12 +24,14 @@ export type RegionSelectProps = Omit<RegionDefaultProps, 'toggleDetailedConditio
 
 export type RegionDefaultProps = {
     readonly type: 'region';
+    readonly selectedRegionConditions: SeletedRegionCondition[];
     readonly findAllSidos: () => Region[];
     readonly findAllSigungus: (sidoCode: string) => Region[];
     readonly findAllEupmyeondongs: (sigunguCode: string) => Region[];
     readonly toggleDetailedConditionAreaOnOffRef: () => void;
     readonly setDetailedConditionsContent: (regionConditionsArea: ReactNode) => void;
     readonly onSelectedCondition: (seletedRegionCondition: SeletedRegionCondition) => void;
+
 
     readonly options?: {
         readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
