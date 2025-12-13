@@ -4,15 +4,15 @@ import type { SelectedCondition } from '../../ComposableSearch';
 
 export type SelectedConditionChipProps = {
     readonly displayName: string,
-    readonly conditionId?: string,
+    readonly onDeleted: (conditionId: string) => void
+    readonly conditionId: string,
     readonly condition?: SelectedCondition
-    readonly onDeleted?: (displayName: string, conditionId: string) => void
 }
 
 export function SelectedConditionChip(props: SelectedConditionChipProps) {
 
     const handleDeleteClick = () => {
-        console.log("칩 삭제")
+        props.onDeleted(props.conditionId)
     };
 
     return (

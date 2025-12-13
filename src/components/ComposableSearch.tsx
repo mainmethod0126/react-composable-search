@@ -43,6 +43,13 @@ export function ComposableSearch({
         });
     }, [])
 
+
+    const deleteCondition = useCallback((deleteConditionId: string) => {
+        setSelectedConditions(prev => {
+            return prev.filter(c => c.id !== deleteConditionId)
+        });
+    }, [])
+
     /**
      * ConditionArea 가 열려있는 상태인지 확인합니다
      */
@@ -108,6 +115,7 @@ export function ComposableSearch({
             <div className="composable-search-selected-conditions-area">
                 <SelectedConditionBasket
                     conditions={selectedConditions}
+                    onDeleted={deleteCondition}
                 ></SelectedConditionBasket>
             </div>
         </div>
