@@ -1,4 +1,5 @@
-import type { SeletedKeywordCondition, SeletedRegionCondition } from "../ComposableSearch"
+import type { SeletedKeywordCondition } from "../ComposableSearch"
+import type { SeletedRegionCondition } from "../Select/RegionSelect/RegionSelect"
 import { SelectedConditionChip } from "./Chip/SelectedConditionChip"
 
 
@@ -10,6 +11,8 @@ export type SelectedConditionBasketProps = {
 
 
 export function SelectedConditionBasket(props: SelectedConditionBasketProps) {
+
+
 
     return (<>
         <p>Selected Conditions Basket</p>

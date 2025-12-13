@@ -26,4 +26,8 @@
     /* 구분선 스타일 (색상 및 두께 지정) */
 }
 
+.composable-search-detailed-conditions-area.is-closed {
+    display: none;
+}
+
 .composable-search-selected-conditions-area {}

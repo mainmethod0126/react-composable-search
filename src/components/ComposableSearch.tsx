@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { ComposableSelect } from "./Select/ComposableSelect";
 import './ComposableSearch.css'
-import type { Region, RegionSelectProps } from "./Select/RegionSelect/RegionSelect";
+import type { RegionSelectProps, SeletedRegionCondition } from "./Select/RegionSelect/RegionSelect";
 import type { KeywordSelectProps } from "./Select/KeywordSelect/KeywordSelect";
 import { SelectedConditionBasket } from "./SelectedConditionBasket/SelectedConditionBasket";
 
@@ -14,14 +14,10 @@ export interface ComposableSearchProps {
 
 
 export type SelectedCondition = {
+    id: string,
     displayName: string
 }
 
-export type SeletedRegionCondition = SelectedCondition & {
-    sido: Region,
-    Sigungu: Region,
-    Eupmyeondong: Region,
-}
 
 export type SeletedKeywordCondition = SelectedCondition & {}
 
@@ -38,12 +34,13 @@ export function ComposableSearch({
     const [selectedConditions, setSelectedConditions] = useState<(SeletedRegionCondition | SeletedKeywordCondition)[]>([]);
 
     const onSelectedCondition = useCallback((selectedCondition: SeletedRegionCondition | SeletedKeywordCondition) => {
-        setSelectedConditions((prev) => {
-            return [
-                ...prev,
-                selectedCondition
-            ]
-        })
+
+        setSelectedConditions(prev => {
+            const exists = prev.some(c => c.id === selectedCondition.id);
+            return exists
+                ? prev.filter(c => c.id !== selectedCondition.id)
+                : [...prev, selectedCondition];
+        });
     }, [])
 
     /**
@@ -73,6 +70,7 @@ export function ComposableSearch({
                                 {...props}
                                 toggleDetailedConditionAreaOnOffRef={toggleDetailedConditionAreaOnOffRef.current}
                                 setDetailedConditionsContent={setDetailedConditionsContent}
+                                onSelectedCondition={onSelectedCondition}
                             ></ComposableSelect>
                         }
                         return <ComposableSelect
@@ -104,11 +102,9 @@ export function ComposableSearch({
                     renderSelectorsArea()
                 }
             </div>
-            {isOpenDetailedConditionArea ?
-                <div className="composable-search-detailed-conditions-area">
-                    {conditionsAreaNode}
-                </div> : null
-            }
+            <div className={`composable-search-detailed-conditions-area ${isOpenDetailedConditionArea ? 'is-open' : 'is-closed'}`}>
+                {conditionsAreaNode}
+            </div>
             <div className="composable-search-selected-conditions-area">
                 <SelectedConditionBasket
                     conditions={selectedConditions}

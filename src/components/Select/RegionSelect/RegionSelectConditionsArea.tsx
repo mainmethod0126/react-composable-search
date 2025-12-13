@@ -11,7 +11,11 @@ export type RegionSelectConditionsAreaProps = {
 
     onSelectedSido: (selectedSido: Region) => void
     onSelectedSigungu: (selectedSigungu: Region) => void
-    onSelectedEupmyeondong: (selectedEupmyeondong: Region) => void
+    onSelectedEupmyeondong: (selectedRegion: {
+        selectedSido: Region,
+        selectedSigungu: Region,
+        selectedEupmyeondong: Region
+    }) => void
 }
 
 export type OnSelectedRegion = ((selectedSido: Region) => void) | ((selectedSigungu: Region) => void) | ((selectedEupmyeondong: Region) => void);
@@ -63,7 +67,7 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
     }, [props])
 
     const onSelectedEupmyeondong = useCallback((selectedEupmyeondong: Region) => {
-        if (!currentSido) return;
+        if (!currentSido || !currentSigungu) return;
 
         setSelectedRegionGroups((prev) => {
             const targetIndex = prev.findIndex(
@@ -88,7 +92,11 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
             }
         });
 
-        props.onSelectedEupmyeondong(selectedEupmyeondong);
+        props.onSelectedEupmyeondong({
+            selectedSido: currentSido,
+            selectedSigungu: currentSigungu,
+            selectedEupmyeondong: selectedEupmyeondong
+        });
 
         // [최적화] setState 함수형 업데이트(prev => ...)를 사용했으므로 
         // selectedRegionGroups를 의존성 배열에서 뺄 수 있습니다.

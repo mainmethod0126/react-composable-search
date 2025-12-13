@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { ComposableSelectItem } from "../ComposableSelect";
 import { RegionSelectConditionsArea, type RegionColumnNode } from "./RegionSelectConditionsArea";
+import type { SelectedCondition } from "../../ComposableSearch";
+
+export type SeletedRegionCondition = SelectedCondition & {
+    sido: Region,
+    sigungu: Region,
+    eupmyeondong: Region,
+}
+
 
 
 export type Region = {
@@ -21,6 +29,7 @@ export type RegionDefaultProps = {
     readonly findAllEupmyeondongs: (sigunguCode: string) => Region[];
     readonly toggleDetailedConditionAreaOnOffRef: () => void;
     readonly setDetailedConditionsContent: (regionConditionsArea: ReactNode) => void;
+    readonly onSelectedCondition: (seletedRegionCondition: SeletedRegionCondition) => void;
 
     readonly options?: {
         readonly onChange?: (selectedItems: ComposableSelectItem[]) => void;
@@ -60,8 +69,6 @@ export function RegionSelect(props: RegionDefaultProps) {
      */
     const onClick = () => {
         toggleDetailedConditionAreaOnOffRef.current?.();
-
-
     }
 
     const onSelectedSido = (selectedSido: Region) => {
@@ -80,7 +87,19 @@ export function RegionSelect(props: RegionDefaultProps) {
 
     }
 
-    const onSelectedEupmyeondong = (selectedRegion: Region) => {
+    const onSelectedEupmyeondong = (selectedRegion: {
+        selectedSido: Region,
+        selectedSigungu: Region,
+        selectedEupmyeondong: Region
+    }) => {
+
+        props.onSelectedCondition({
+            id: selectedRegion.selectedEupmyeondong.code,
+            displayName: `${selectedRegion.selectedSido.displayName}>${selectedRegion.selectedSigungu.displayName}>${selectedRegion.selectedEupmyeondong.displayName}`,
+            sido: selectedRegion.selectedSido,
+            sigungu: selectedRegion.selectedSigungu,
+            eupmyeondong: selectedRegion.selectedEupmyeondong
+        });
     }
 
 
