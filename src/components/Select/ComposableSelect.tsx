@@ -1,7 +1,8 @@
 import { type ReactNode } from "react";
 import './ComposableSelect.css'
-import { RegionSelect, type RegionDefaultProps } from "./RegionSelect/RegionSelect";
+import { RegionSelect, type RegionDefaultProps, type SeletedRegionCondition } from "./RegionSelect/RegionSelect";
 import { KeywordSelect, type KeywordSelectProps } from "./KeywordSelect/KeywordSelect";
+import type { SeletedKeywordCondition } from "../ComposableSearch";
 
 export type ComposableSelectItemType = "keyword" | "region";
 
@@ -25,14 +26,15 @@ export type ComposableSelectItem = {
     type: ComposableSelectItemType;
     displayName: string;
     value: object;
-
 }
 
 
 
 
 
-export type ComposableSelectDefaultProps = RegionDefaultProps | KeywordSelectProps
+export type ComposableSelectDefaultProps = (RegionDefaultProps | KeywordSelectProps) & {
+    selectedConditions: (SeletedRegionCondition | SeletedKeywordCondition)[]
+}
 
 
 /**
@@ -41,10 +43,15 @@ export type ComposableSelectDefaultProps = RegionDefaultProps | KeywordSelectPro
 export function ComposableSelect(props: ComposableSelectDefaultProps) {
 
 
+
     const render = (): ReactNode => {
         if (props.type === "region") {
+
             return <RegionSelect
-                {...props}
+                {
+                ...props
+                }
+                selectedRegionConditions={props.selectedConditions as SeletedRegionCondition[]}
             >
             </RegionSelect>
         } else if (props.type === "keyword") {
