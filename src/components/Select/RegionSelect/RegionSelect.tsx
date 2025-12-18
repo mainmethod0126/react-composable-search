@@ -48,6 +48,7 @@ export function RegionSelect(props: RegionDefaultProps) {
     const [eupmyeondongColumnNode, setEupmyeondongColumnNode] = useState<RegionColumnNode>()
 
 
+
     /**
      * onChangeRef.current 의 값이 바뀐다고 하더라도 재렌더링이 되지 않기 위해서 useRef사용
      */
@@ -134,18 +135,20 @@ export function RegionSelect(props: RegionDefaultProps) {
                 onSelectedSido={onSelectedSido}
                 onSelectedSigungu={onSelectedSigungu}
                 onSelectedEupmyeondong={onSelectedEupmyeondong}
+                selectedRegionConditions={props.selectedRegionConditions}
                 foundSidoNode={sidoColumnNode}
                 foundSigunguNode={sigunguColumnNode}
                 foundEupmyeondongNode={eupmyeondongColumnNode}
             />
         );
-    }, [sidoColumnNode, sigunguColumnNode, eupmyeondongColumnNode, props.setDetailedConditionsContent])
-
-    /**
-     * 선택된 items 가 없을때 노출될 텍스트입니다
-     */
-    // const [placeHolder, setPlaceHolder] = useState<string>(props.placeHolder ?? "");
-    // const [isOpen, setIsOpen] = useState<boolean>(false);
+    }, [sidoColumnNode,
+        sigunguColumnNode,
+        eupmyeondongColumnNode,
+        props.setDetailedConditionsContent,
+        props.selectedRegionConditions,
+        onSelectedSido,
+        onSelectedSigungu,
+        onSelectedEupmyeondong])
 
     /**
      * 현재 선택되어있는 items 입니다

@@ -78,10 +78,12 @@ export function ComposableSearch({
                                 toggleDetailedConditionAreaOnOffRef={toggleDetailedConditionAreaOnOffRef.current}
                                 setDetailedConditionsContent={setDetailedConditionsContent}
                                 onSelectedCondition={onSelectedCondition}
+                                selectedConditions={selectedConditions}
                             ></ComposableSelect>
                         }
                         return <ComposableSelect
                             {...props}
+                            selectedConditions={selectedConditions}
                         ></ComposableSelect>
                     })
                 }

@@ -1,4 +1,4 @@
-import type { Region } from "./RegionSelect";
+import type { Region, SeletedRegionCondition } from "./RegionSelect";
 import { CheckableRegionColumn } from "./CheckableRegionColumn";
 import { SelectableRegionColumn } from "./SelectableRegionColumn";
 import "./RegionColumn.css"
@@ -8,6 +8,8 @@ export type RegionSelectConditionsAreaProps = {
     foundSidoNode?: RegionColumnNode;
     foundSigunguNode?: RegionColumnNode;
     foundEupmyeondongNode?: RegionColumnNode;
+
+    selectedRegionConditions?: SeletedRegionCondition[];
 
     onSelectedSido: (selectedSido: Region) => void
     onSelectedSigungu: (selectedSigungu: Region) => void
@@ -19,7 +21,6 @@ export type RegionSelectConditionsAreaProps = {
 }
 
 export type OnSelectedRegion = ((selectedSido: Region) => void) | ((selectedSigungu: Region) => void) | ((selectedEupmyeondong: Region) => void);
-// type RegionItem = Sido | Sigungu | Eupmyeondong;
 
 /**
  * 자기자신을 포함합니다
@@ -39,20 +40,11 @@ export type RegionColumnItem = {
 }
 
 
-export type SelectedRegionGroup = {
-    sido: Region;
-    sigungu?: Region;
-    eupmyeondong?: Region
-}
-
-
 export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProps) {
 
 
     const [currentSido, setCurrentSido] = useState<Region>()
     const [currentSigungu, setCurrentSigungu] = useState<Region>()
-
-    const [selectedRegionGroups, setSelectedRegionGroups] = useState<SelectedRegionGroup[]>([])
 
 
 
@@ -69,46 +61,21 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
     const onSelectedEupmyeondong = useCallback((selectedEupmyeondong: Region) => {
         if (!currentSido || !currentSigungu) return;
 
-        setSelectedRegionGroups((prev) => {
-            const targetIndex = prev.findIndex(
-                (group) => group.eupmyeondong?.code === selectedEupmyeondong.code
-            );
-
-            if (targetIndex > -1) {
-                // 이미 존재함 -> 해당 인덱스만 쏙 빼고 복사 (Splice)
-                const next = [...prev];
-                next.splice(targetIndex, 1);
-                return next;
-            } else {
-                // 존재하지 않음 -> 배열 끝에 추가
-                return [
-                    ...prev,
-                    {
-                        sido: currentSido,
-                        sigungu: currentSigungu,
-                        eupmyeondong: selectedEupmyeondong,
-                    },
-                ];
-            }
-        });
-
         props.onSelectedEupmyeondong({
             selectedSido: currentSido,
             selectedSigungu: currentSigungu,
             selectedEupmyeondong: selectedEupmyeondong
         });
 
-        // [최적화] setState 함수형 업데이트(prev => ...)를 사용했으므로 
-        // selectedRegionGroups를 의존성 배열에서 뺄 수 있습니다.
     }, [props, currentSido, currentSigungu]);
 
     const getSelectedSidos = (): Region[] => {
 
         const selectedSidos: Region[] = []
 
-        for (const selectedRegionGroup of selectedRegionGroups) {
-            selectedSidos.push(selectedRegionGroup.sido);
-        }
+        props.selectedRegionConditions?.forEach((selectedRegionCondition) => {
+            selectedSidos.push(selectedRegionCondition.sido);
+        })
 
         return selectedSidos;
     }
@@ -117,11 +84,9 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
 
         const selectedSigungus: Region[] = []
 
-        for (const selectedRegionGroup of selectedRegionGroups) {
-            if (selectedRegionGroup.sigungu) {
-                selectedSigungus.push(selectedRegionGroup.sigungu);
-            }
-        }
+        props.selectedRegionConditions?.forEach((selectedRegionCondition) => {
+            selectedSigungus.push(selectedRegionCondition.sigungu);
+        })
 
         return selectedSigungus;
     }
@@ -130,11 +95,9 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
 
         const selectedEupmyeondongs: Region[] = []
 
-        for (const selectedRegionGroup of selectedRegionGroups) {
-            if (selectedRegionGroup.eupmyeondong) {
-                selectedEupmyeondongs.push(selectedRegionGroup.eupmyeondong);
-            }
-        }
+        props.selectedRegionConditions?.forEach((selectedRegionCondition) => {
+            selectedEupmyeondongs.push(selectedRegionCondition.eupmyeondong);
+        })
 
         return selectedEupmyeondongs;
     }
