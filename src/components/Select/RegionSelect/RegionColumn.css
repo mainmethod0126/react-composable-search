@@ -43,6 +43,7 @@
     padding: 6px 2px;
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;
+    align-items: stretch;
 }
 
 .region-column-listStyle::-webkit-scrollbar {
@@ -70,6 +71,8 @@
     border: 1px solid transparent;
     background-color: #f8fafc;
     transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .region-column-optionStyle span {
@@ -78,6 +81,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    display: block;
+    max-width: 100%;
 }
 
 .region-column-optionStyle input[type="checkbox"] {
