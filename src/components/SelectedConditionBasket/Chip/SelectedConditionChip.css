@@ -6,16 +6,21 @@
 .selected-condition-chip {
     display: inline-flex;
     align-items: center;
-    background-color: #e0e0e0;
-    border-radius: 16px;
-    padding: 4px 12px;
-    margin: 4px;
+    background-color: #eef2ff;
+    border: 1px solid #d0d7e2;
+    border-radius: 14px;
+    padding: 6px 12px;
+    margin: 6px 4px;
     font-size: 14px;
-    color: #333;
+    color: #0f172a;
     user-select: none;
-    /* 텍스트 선택 방지 */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-    transition: background-color 0.2s ease;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.selected-condition-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.16);
 }
 
 /* 칩 내부 텍스트 라벨 */
@@ -33,17 +38,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #666;
+    color: #2563eb;
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 /* 삭제 버튼 Hover 효과 */
 .selected-condition-chip__delete-button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: #000;
+    background-color: rgba(37, 99, 235, 0.12);
+    color: #1d4ed8;
+    transform: translateY(-1px);
 }
 
 /* 아이콘 SVG 스타일 (크기 조정) */
