@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import type { ComposableSelectItem } from "../ComposableSelect";
 import { RegionSelectConditionsArea, type RegionColumnNode } from "./RegionSelectConditionsArea";
 import type { SelectedCondition } from "../../ComposableSearch";
@@ -74,23 +74,33 @@ export function RegionSelect(props: RegionDefaultProps) {
         toggleDetailedConditionAreaOnOffRef.current?.();
     }
 
-    const onSelectedSido = (selectedSido: Region) => {
+    const convertToRegionColumnNode = useCallback((parent: Region, children: Region[]): RegionColumnNode => {
+        return {
+            parent: {
+                ...parent,
+                displayName: parent.displayName + " 전체"
+            },
+            children: children
+        }
+    }, [])
+
+    const onSelectedSido = useCallback((selectedSido: Region) => {
 
         const foundSigungus = props.findAllSigungus(selectedSido.code);
 
         setSigunguColumnNode(convertToRegionColumnNode(selectedSido, foundSigungus));
-    }
+    }, [props.findAllSigungus, convertToRegionColumnNode])
 
-    const onSelectedSigungu = (selectedSigungu: Region) => {
+    const onSelectedSigungu = useCallback((selectedSigungu: Region) => {
 
         const foundEupmyeondongs = props.findAllEupmyeondongs(selectedSigungu.code);
 
 
         setEupmyeondongColumnNode(convertToRegionColumnNode(selectedSigungu, foundEupmyeondongs))
 
-    }
+    }, [props.findAllEupmyeondongs, convertToRegionColumnNode])
 
-    const onSelectedEupmyeondong = (selectedRegion: {
+    const onSelectedEupmyeondong = useCallback((selectedRegion: {
         selectedSido: Region,
         selectedSigungu: Region,
         selectedEupmyeondong: Region
@@ -103,18 +113,7 @@ export function RegionSelect(props: RegionDefaultProps) {
             sigungu: selectedRegion.selectedSigungu,
             eupmyeondong: selectedRegion.selectedEupmyeondong
         });
-    }
-
-
-    const convertToRegionColumnNode = (parent: Region, children: Region[]): RegionColumnNode => {
-        return {
-            parent: {
-                ...parent,
-                displayName: parent.displayName + " 전체"
-            },
-            children: children
-        }
-    }
+    }, [props.onSelectedCondition])
 
 
     useEffect(() => {
