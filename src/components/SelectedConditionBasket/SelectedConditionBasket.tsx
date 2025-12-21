@@ -13,7 +13,6 @@ export type SelectedConditionBasketProps = {
 export function SelectedConditionBasket(props: SelectedConditionBasketProps) {
 
     return (<>
-        <p>Selected Conditions Basket</p>
         {props.conditions.map((condition) => {
             return <SelectedConditionChip
                 conditionId={condition.id}

@@ -35,15 +35,20 @@
 }
 
 .region-column-listStyle {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
     overflow-y: auto;
     flex: 1;
-    padding: 6px 2px;
+    padding: 0;
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;
     align-items: stretch;
+    align-content: start;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    overflow: hidden;
 }
 
 .region-column-listStyle::-webkit-scrollbar {
@@ -62,15 +67,15 @@
 .region-column-optionStyle {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     font-size: 0.92rem;
     cursor: pointer;
     color: #0f172a;
-    padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    background-color: #f8fafc;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    padding: 8px 10px;
+    border-radius: 0;
+    border: 0;
+    background-color: transparent;
+    transition: background-color 0.15s ease, color 0.15s ease;
     width: 100%;
     box-sizing: border-box;
 }
@@ -93,9 +98,6 @@
 
 .region-column-optionStyle:hover {
     background-color: #f1f5f9;
-    border-color: #e2e8f0;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.06);
 }
 
 .region-column-emptyStyle {
@@ -106,13 +108,11 @@
 .region-column-optionStyle.selected {
     background: #e5edff;
     color: #0b1e40;
-    border-color: #2563eb;
     font-weight: 700;
 }
 
 .region-column-optionStyle.current {
     background: #2563eb;
     color: #ffffff;
-    border-color: transparent;
     font-weight: 700;
 }
