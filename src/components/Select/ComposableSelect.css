@@ -8,13 +8,17 @@
     box-sizing: border-box;
     border: 1px solid #e2e8f0;
     background-color: #fff;
-    border-radius: 12px;
+    border-radius: 0;
     padding: 8px 10px;
     gap: 8px;
     flex-grow: 1;
     flex-basis: 0;
     min-width: 0;
     transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.composable-select-container + .composable-select-container {
+    border-left: 0;
 }
 
 .composable-select-container:hover {
@@ -30,8 +34,8 @@
     align-items: center;
     padding: 0 10px;
     height: 42px;
-    color: #2563eb;
-    background-color: #eef2ff;
+    color: #64748b;
+    background-color: #f1f5f9;
     border-radius: 10px;
 }
 
