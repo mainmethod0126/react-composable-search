@@ -36,10 +36,49 @@ export function ComposableSearch({
     const onSelectedCondition = useCallback((selectedCondition: SeletedRegionCondition | SeletedKeywordCondition) => {
 
         setSelectedConditions(prev => {
-            const exists = prev.some(c => c.id === selectedCondition.id);
+            const isRegionCondition = (condition: SeletedRegionCondition | SeletedKeywordCondition): condition is SeletedRegionCondition => {
+                return "sido" in condition && "sigungu" in condition && "eupmyeondong" in condition;
+            };
+
+            if (!isRegionCondition(selectedCondition)) {
+                const exists = prev.some(c => c.id === selectedCondition.id);
+                return exists
+                    ? prev.filter(c => c.id !== selectedCondition.id)
+                    : [...prev, selectedCondition];
+            }
+
+            const isWholeRegionCondition = (condition: SeletedRegionCondition) => {
+                return condition.sigungu.code === condition.eupmyeondong.code;
+            };
+
+            const isSameSigungu = (condition: SeletedRegionCondition) => {
+                return condition.sido.code === selectedCondition.sido.code
+                    && condition.sigungu.code === selectedCondition.sigungu.code;
+            };
+
+            // "~ 전체" 선택 시 같은 시군구의 다른 선택은 해제합니다
+            if (isWholeRegionCondition(selectedCondition)) {
+                const filtered = prev.filter(condition => {
+                    return !isRegionCondition(condition) || !isSameSigungu(condition);
+                });
+                const exists = prev.some(condition => isRegionCondition(condition) && condition.id === selectedCondition.id);
+                return exists ? filtered : [...filtered, selectedCondition];
+            }
+
+            const withoutWhole = prev.filter(condition => {
+                if (!isRegionCondition(condition)) {
+                    return true;
+                }
+                if (!isSameSigungu(condition)) {
+                    return true;
+                }
+                return !isWholeRegionCondition(condition);
+            });
+
+            const exists = withoutWhole.some(condition => condition.id === selectedCondition.id);
             return exists
-                ? prev.filter(c => c.id !== selectedCondition.id)
-                : [...prev, selectedCondition];
+                ? withoutWhole.filter(condition => condition.id !== selectedCondition.id)
+                : [...withoutWhole, selectedCondition];
         });
     }, [])
 
