@@ -116,6 +116,7 @@ export function ComposableSearch({
                                 {...props}
                                 toggleDetailedConditionAreaOnOffRef={toggleDetailedConditionAreaOnOffRef.current}
                                 setDetailedConditionsContent={setDetailedConditionsContent}
+                                isDetailedConditionAreaOpen={isOpenDetailedConditionArea}
                                 onSelectedCondition={onSelectedCondition}
                                 selectedConditions={selectedConditions}
                             ></ComposableSelect>

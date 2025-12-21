@@ -9,8 +9,8 @@
     border: 1px solid #e2e8f0;
     background-color: #fff;
     border-radius: 0;
-    padding: 8px 10px;
-    gap: 8px;
+    padding: 6px 8px;
+    gap: 6px;
     flex-grow: 1;
     flex-basis: 0;
     min-width: 0;
@@ -32,8 +32,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 10px;
-    height: 42px;
+    padding: 0 8px;
+    height: 34px;
     color: #64748b;
     background-color: #f1f5f9;
     border-radius: 10px;
@@ -41,7 +41,7 @@
 
 /* 현재 선택된 값을 보여주는 버튼(트리거) */
 .composable-select-trigger {
-    font-size: 15px;
+    font-size: 14px;
     color: #0f172a;
     cursor: pointer;
     width: 100%;
@@ -55,8 +55,26 @@
     box-sizing: border-box;
     background: transparent;
     border: none;
-    padding: 6px 4px;
+    padding: 4px 2px;
     appearance: none;
+}
+
+.composable-select-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    flex-shrink: 0;
+}
+
+.composable-select-arrow-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+}
+
+.composable-select-arrow-icon.is-open {
+    transform: rotate(180deg);
 }
 
 .composable-select-trigger.placeholder {

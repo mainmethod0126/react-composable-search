@@ -20,7 +20,7 @@ export type Region = {
 
 // 실제 라이브러리 사용자가 외부에서 props를 주입할때 사용할 수 있는 용도입니다
 // Omit된 속성은 라이브러리 내부에서 호출할때 주입용이라 사용자에게 표출하지 않도록 하였습니다
-export type RegionSelectProps = Omit<RegionDefaultProps, 'toggleDetailedConditionAreaOnOffRef' | 'setDetailedConditionsContent'>;
+export type RegionSelectProps = Omit<RegionDefaultProps, 'toggleDetailedConditionAreaOnOffRef' | 'setDetailedConditionsContent' | 'isDetailedConditionAreaOpen'>;
 
 export type RegionDefaultProps = {
     readonly type: 'region';
@@ -30,6 +30,7 @@ export type RegionDefaultProps = {
     readonly findAllEupmyeondongs: (sigunguCode: string) => Region[];
     readonly toggleDetailedConditionAreaOnOffRef: () => void;
     readonly setDetailedConditionsContent: (regionConditionsArea: ReactNode) => void;
+    readonly isDetailedConditionAreaOpen: boolean;
     readonly onSelectedCondition: (seletedRegionCondition: SeletedRegionCondition) => void;
 
 
@@ -182,6 +183,20 @@ export function RegionSelect(props: RegionDefaultProps) {
         </svg>
     );
 
+    const ChevronIcon = ({ isOpen }: { isOpen: boolean }) => (
+        <svg
+            className={`composable-select-arrow-icon ${isOpen ? 'is-open' : ''}`}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M6 9l6 6 6-6" />
+        </svg>
+    );
 
     return (
         <div className="composable-select-container">
@@ -192,6 +207,9 @@ export function RegionSelect(props: RegionDefaultProps) {
                 <div>
                     {props.options?.placeHolder}
                 </div>
+                <span className="composable-select-arrow">
+                    <ChevronIcon isOpen={props.isDetailedConditionAreaOpen} />
+                </span>
             </button>
         </div>
     )
