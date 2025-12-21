@@ -46,7 +46,7 @@
     flex: 1;
     padding: 0;
     scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 transparent;
+    scrollbar-color: rgba(148, 163, 184, 0.6) transparent;
     align-items: stretch;
     align-content: start;
     border: 1px solid #e2e8f0;
@@ -60,8 +60,16 @@
 }
 
 .region-column-listStyle::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 10px;
+    background: rgba(148, 163, 184, 0.6);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.region-column-listStyle::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 116, 139, 0.75);
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 .region-column-listStyle::-webkit-scrollbar-track {

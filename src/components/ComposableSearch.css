@@ -50,6 +50,29 @@
     overflow-y: auto;
     flex: 1;
     min-height: 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.6) transparent;
+}
+
+.composable-search-selected-conditions-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.composable-search-selected-conditions-list::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.6);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.composable-search-selected-conditions-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 116, 139, 0.75);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.composable-search-selected-conditions-list::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .composable-search-clear-button {
