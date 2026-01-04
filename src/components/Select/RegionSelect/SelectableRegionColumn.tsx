@@ -60,21 +60,28 @@ export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
 
     }, [props.options?.regionColumnNode]); // 의존성 배열에 parent 객체(혹은 ID)를 넣습니다.
 
-    return (<div className="region-column-columnStyle" >
-        <div className="region-column-titleStyle">{props.title}</div>
-        <div className="region-column-listStyle">
-            {regions.length === 0 ? (
-                <span className="region-column-emptyStyle">No items to display.</span>
-            ) : (
-                regions.map((region) => (
-                    <label key={region.code} className={`region-column-optionStyle ${isCurrent(region) ? 'current' : isSelected(region) ? 'selected' : ''}`} onClick={() => {
-                        setCurrentRegion(region)
-                        props.onSelectedRegion(region);
-                    }}>
-                        <span>{getItemLabel(region)}</span>
-                    </label>
-                ))
-            )}
-        </div>
-    </div>)
+    return (
+        <div className="region-column-columnStyle" >
+            <div className="region-column-titleStyle">{props.title}</div>
+            <label className={`region-column-optionStyle`} >
+                <input type="checkbox"
+
+                />
+                <span> 현재 지역 전체 </span>
+            </label>
+            <div className="region-column-listStyle">
+                {regions.length === 0 ? (
+                    <span className="region-column-emptyStyle">No items to display.</span>
+                ) : (
+                    regions.map((region) => (
+                        <label key={region.code} className={`region-column-optionStyle ${isCurrent(region) ? 'current' : isSelected(region) ? 'selected' : ''}`} onClick={() => {
+                            setCurrentRegion(region)
+                            props.onSelectedRegion(region);
+                        }}>
+                            <span>{getItemLabel(region)}</span>
+                        </label>
+                    ))
+                )}
+            </div>
+        </div>)
 }
