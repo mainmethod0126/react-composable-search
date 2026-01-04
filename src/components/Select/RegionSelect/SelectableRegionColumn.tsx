@@ -41,12 +41,14 @@ export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
         })
     }
 
+    const onCheckedAllRegion = (regionColumnItem: RegionColumnItem) => {
+
+    }
+
     /**
      * Column 은 초기 아이템은 parent로 지정됩니다
      */
     useEffect(() => {
-
-
         // 부모가 있을경우 부모를 초기 선택값으로 지정하고 부모가 없을 경우에는
         // 자식중에 첫번째를 선택합니다
         if (props.options?.regionColumnNode?.parent) {
@@ -65,7 +67,15 @@ export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
             <div className="region-column-titleStyle">{props.title}</div>
             <label className={`region-column-optionStyle`} >
                 <input type="checkbox"
-
+                    onChange={(e) => {
+                        const isChecked = e.target.checked;
+                        if (isChecked) {
+                            if (props.options?.regionColumnNode?.parent) {
+                                setCurrentRegion(props.options?.regionColumnNode?.parent)
+                                props.onSelectedRegion(props.options?.regionColumnNode?.parent);
+                            }
+                        }
+                    }}
                 />
                 <span> 현재 지역 전체 </span>
             </label>
