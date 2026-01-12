@@ -18,10 +18,7 @@ export function CheckableRegionColumn(props: CheckableRegionColumnProps) {
     const getItemLabel = (item: RegionColumnItem) => item.displayName ?? item.name;
 
     // 체크 가능한 지역 목록에 부모 지역 전체 선택지도 포함시켜야함
-    const regions: RegionColumnItem[] = [
-        ...(props.options?.regionColumnNode?.parent ? [props.options?.regionColumnNode.parent] : []),
-        ...props.options?.regionColumnNode?.children ?? []
-    ];
+
 
 
     const isChecked = (region: Region) => {

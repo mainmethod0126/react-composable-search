@@ -41,6 +41,11 @@ export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
         })
     }
 
+    /**
+     * 
+     * 
+     * @param regionColumnItem 
+     */
     const onCheckedAllRegion = (regionColumnItem: RegionColumnItem) => {
 
     }
