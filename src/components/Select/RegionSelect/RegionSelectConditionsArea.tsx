@@ -13,6 +13,10 @@ export type RegionSelectConditionsAreaProps = {
 
     onSelectedSido: (selectedSido: Region) => void
     onSelectedSigungu: (selectedSigungu: Region) => void
+    onSelectedWholeRegion: (selectedRegion: {
+        selectedSido: Region,
+        selectedSigungu: Region
+    }) => void
     onSelectedEupmyeondong: (selectedRegion: {
         selectedSido: Region,
         selectedSigungu: Region,
@@ -50,13 +54,14 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
 
     const onSelectedSido = useCallback((selectedSido: Region) => {
         setCurrentSido(selectedSido)
+        setCurrentSigungu(undefined)
         props.onSelectedSido(selectedSido);
-    }, [props])
+    }, [props.onSelectedSido])
 
     const onSelectedSigungu = useCallback((selectedSigungu: Region) => {
         setCurrentSigungu(selectedSigungu)
         props.onSelectedSigungu(selectedSigungu);
-    }, [props])
+    }, [props.onSelectedSigungu])
 
     const onSelectedEupmyeondong = useCallback((selectedEupmyeondong: Region) => {
         if (!currentSido || !currentSigungu) return;
@@ -67,7 +72,15 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
             selectedEupmyeondong: selectedEupmyeondong
         });
 
-    }, [props, currentSido, currentSigungu]);
+    }, [props.onSelectedEupmyeondong, currentSido, currentSigungu]);
+
+    const onToggleWholeRegion = useCallback(() => {
+        if (!currentSido || !currentSigungu) return;
+        props.onSelectedWholeRegion({
+            selectedSido: currentSido,
+            selectedSigungu: currentSigungu
+        });
+    }, [props.onSelectedWholeRegion, currentSido, currentSigungu]);
 
     const getSelectedSidos = (): Region[] => {
 
@@ -105,6 +118,11 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
 
 
     const { foundSidoNode, foundSigunguNode, foundEupmyeondongNode } = props;
+    const isWholeSigunguSelected = !!currentSigungu
+        && (props.selectedRegionConditions ?? []).some((condition) => {
+            return condition.sigungu.code === currentSigungu.code
+                && condition.eupmyeondong.code === condition.sigungu.code;
+        });
 
     return (
         <div className="region-column-containerStyle">
@@ -120,6 +138,11 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
                 title="시/군/구"
                 onSelectedRegion={onSelectedSigungu}
                 selectedRegions={getSelectedSigungus()}
+                showWholeOption={true}
+                isWholeSelected={isWholeSigunguSelected}
+                forceAllSelected={isWholeSigunguSelected}
+                isWholeDisabled={!currentSido || !currentSigungu}
+                onToggleWhole={onToggleWholeRegion}
                 options={{
                     regionColumnNode: foundSigunguNode
                 }}
@@ -128,6 +151,8 @@ export function RegionSelectConditionsArea(props: RegionSelectConditionsAreaProp
                 title="읍/면/동"
                 onCheckedRegion={onSelectedEupmyeondong}
                 checkedRegions={getSelectedEupmyeondongs()}
+                isHidden={isWholeSigunguSelected}
+                hiddenMessage="현재 지역 전체 선택됨"
                 options={{
                     regionColumnNode: foundEupmyeondongNode
                 }}

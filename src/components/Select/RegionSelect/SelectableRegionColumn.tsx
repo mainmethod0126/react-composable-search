@@ -11,6 +11,11 @@ export type SelectableRegionColumnProps = {
     readonly title: string,
     readonly onSelectedRegion: OnSelectedRegion,
     readonly selectedRegions: Region[],
+    readonly showWholeOption?: boolean,
+    readonly isWholeSelected?: boolean,
+    readonly forceAllSelected?: boolean,
+    readonly onToggleWhole?: () => void,
+    readonly isWholeDisabled?: boolean,
     readonly options?: {
         regionColumnNode?: RegionColumnNode
     }
@@ -20,8 +25,6 @@ export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
 
 
     const [currentRegion, setCurrentRegion] = useState<RegionColumnItem | undefined>()
-
-    console.log("current : " + props.options?.regionColumnNode?.parent?.displayName)
 
     const getItemLabel = (item: RegionColumnItem) => item.displayName ?? item.name;
 
@@ -34,59 +37,56 @@ export function SelectableRegionColumn(props: SelectableRegionColumnProps) {
     }
 
     const isSelected = (region: RegionColumnItem) => {
+        if (props.forceAllSelected) {
+            return true;
+        }
         return props.selectedRegions.some((selectedRegion) => {
             return region.code === selectedRegion.code
         })
     }
 
     /**
-     * 
-     * @param regionColumnItem 
-     */
-    const onChangeAllRegion = (checked: boolean) => {
-
-    }
-
-    /**
-     * Column 은 초기 아이템은 parent로 지정됩니다
+     * Column 초기 선택은 첫 번째 자식, 없으면 parent를 사용합니다
      */
     useEffect(() => {
-        // 부모가 있을경우 부모를 초기 선택값으로 지정하고 부모가 없을 경우에는
-        // 자식중에 첫번째를 선택합니다
-        if (props.options?.regionColumnNode?.parent) {
-            setCurrentRegion(props.options.regionColumnNode.parent);
-            props.onSelectedRegion(props.options.regionColumnNode.parent)
-
-        } else if (props.options?.regionColumnNode?.children?.[0]) {
-            setCurrentRegion(props.options?.regionColumnNode?.children?.[0]);
-            props.onSelectedRegion(props.options?.regionColumnNode?.children?.[0])
+        const firstChild = props.options?.regionColumnNode?.children?.[0];
+        if (firstChild) {
+            setCurrentRegion(firstChild);
+            props.onSelectedRegion(firstChild);
+            return;
         }
 
-    }, [props.options?.regionColumnNode]); // 의존성 배열에 parent 객체(혹은 ID)를 넣습니다.
+        if (props.options?.regionColumnNode?.parent) {
+            setCurrentRegion(props.options.regionColumnNode.parent);
+            props.onSelectedRegion(props.options.regionColumnNode.parent);
+        }
+    }, [props.options?.regionColumnNode, props.onSelectedRegion]);
 
     return (
         <div className="region-column-columnStyle" >
             <div className="region-column-titleStyle">{props.title}</div>
-            <label className={`region-column-optionStyle`} >
-                <input type="checkbox"
-                    onChange={(e) => {
-                        const isChecked = e.target.checked;
-                        if (isChecked) {
-                            if (props.options?.regionColumnNode?.parent) {
-                                setCurrentRegion(props.options?.regionColumnNode?.parent)
-                                props.onSelectedRegion(props.options?.regionColumnNode?.parent);
-                            }
-                        }
-                    }}
-                />
-                <span> 현재 지역 전체 </span>
-            </label>
+            {props.showWholeOption ? (
+                <label className={`region-column-optionStyle`} >
+                    <input
+                        type="checkbox"
+                        checked={!!props.isWholeSelected}
+                        disabled={props.isWholeDisabled}
+                        onChange={() => {
+                            props.onToggleWhole?.();
+                        }}
+                    />
+                    <span> 현재 지역 전체 </span>
+                </label>
+            ) : null}
             <div className="region-column-listStyle">
                 {regions.length === 0 ? (
                     <span className="region-column-emptyStyle">No items to display.</span>
                 ) : (
                     regions.map((region) => (
                         <label key={region.code} className={`region-column-optionStyle ${isCurrent(region) ? 'current' : isSelected(region) ? 'selected' : ''}`} onClick={() => {
+                            if (props.isWholeSelected) {
+                                props.onToggleWhole?.();
+                            }
                             setCurrentRegion(region)
                             props.onSelectedRegion(region);
                         }}>

@@ -116,6 +116,18 @@ export function RegionSelect(props: RegionDefaultProps) {
         });
     }, [props.onSelectedCondition])
 
+    const onSelectedWholeRegion = useCallback((selectedRegion: {
+        selectedSido: Region,
+        selectedSigungu: Region
+    }) => {
+        props.onSelectedCondition({
+            id: selectedRegion.selectedSigungu.code,
+            displayName: `${selectedRegion.selectedSido.displayName}>${selectedRegion.selectedSigungu.displayName} 전체`,
+            sido: selectedRegion.selectedSido,
+            sigungu: selectedRegion.selectedSigungu,
+            eupmyeondong: selectedRegion.selectedSigungu
+        });
+    }, [props.onSelectedCondition])
 
     useEffect(() => {
 
@@ -134,6 +146,7 @@ export function RegionSelect(props: RegionDefaultProps) {
             <RegionSelectConditionsArea
                 onSelectedSido={onSelectedSido}
                 onSelectedSigungu={onSelectedSigungu}
+                onSelectedWholeRegion={onSelectedWholeRegion}
                 onSelectedEupmyeondong={onSelectedEupmyeondong}
                 selectedRegionConditions={props.selectedRegionConditions}
                 foundSidoNode={sidoColumnNode}
@@ -148,6 +161,7 @@ export function RegionSelect(props: RegionDefaultProps) {
         props.selectedRegionConditions,
         onSelectedSido,
         onSelectedSigungu,
+        onSelectedWholeRegion,
         onSelectedEupmyeondong])
 
     /**

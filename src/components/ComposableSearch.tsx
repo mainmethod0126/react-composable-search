@@ -34,45 +34,6 @@ export function ComposableSearch({
     const [selectedConditions, setSelectedConditions] = useState<(SeletedRegionCondition | SeletedKeywordCondition)[]>([]);
 
 
-    const onSelectedWholeRegionCondition = useCallback((selectedWholeRegionCondition: SeletedRegionCondition) => {
-        setSelectedConditions(prev => {
-
-            const isRegionCondition = (condition: SeletedRegionCondition | SeletedKeywordCondition): condition is SeletedRegionCondition => {
-                return "sido" in condition && "sigungu" in condition && "eupmyeondong" in condition;
-            };
-
-
-            if (!isRegionCondition(selectedWholeRegionCondition)) {
-                const exists = prev.some(c => c.id === selectedWholeRegionCondition.id);
-                return exists
-                    ? prev.filter(c => c.id !== selectedWholeRegionCondition.id)
-                    : [...prev, selectedWholeRegionCondition];
-            }
-
-            const isChildRegion = (parent: SeletedRegionCondition, target: SeletedRegionCondition) {
-                if (parent.) {
-
-                }
-            }
-
-            // 하위 지역 선택된게 있으면 전부 제외해야한다
-            // 하위 지역이라는 기준은 어떻게 잡지?
-            // 현재 선택된 selectedWholeRegionCondition 가 시/도인지 시/군/구인지 읍/면/동인지 구분이 안되면
-            // 하위 지역이라는게 구분이되나?
-            return prev.filter(condition => {
-                if (isRegionCondition(condition)) {
-
-
-
-
-
-                }
-            });
-
-
-        });
-    }, []);
-
     const onSelectedCondition = useCallback((selectedCondition: SeletedRegionCondition | SeletedKeywordCondition) => {
         setSelectedConditions(prev => {
             const isRegionCondition = (condition: SeletedRegionCondition | SeletedKeywordCondition): condition is SeletedRegionCondition => {

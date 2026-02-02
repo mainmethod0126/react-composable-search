@@ -7,6 +7,8 @@ export type CheckableRegionColumnProps = {
     readonly title: string,
     readonly onCheckedRegion: OnSelectedRegion,
     readonly checkedRegions: Region[],
+    readonly isHidden?: boolean,
+    readonly hiddenMessage?: string,
     readonly options?: {
         regionColumnNode?: RegionColumnNode
     }
@@ -30,7 +32,9 @@ export function CheckableRegionColumn(props: CheckableRegionColumnProps) {
     return (<div className="region-column-columnStyle" >
         <div className="region-column-titleStyle">{props.title}</div>
         <div className="region-column-listStyle">
-            {regions.length === 0 ? (
+            {props.isHidden ? (
+                <span className="region-column-emptyStyle">{props.hiddenMessage ?? "전체 선택됨"}</span>
+            ) : regions.length === 0 ? (
                 <span className="region-column-emptyStyle">No items to display.</span>
             ) : (
                 regions.map((region) => (
